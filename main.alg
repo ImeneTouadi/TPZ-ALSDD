@@ -50,7 +50,7 @@
       
    FIN
 
-   // Creates a binary search tree with 100 random data all initialized to salse (not visited)
+   // Creates a binary search tree with 100 random data all initialized to false (not visited)
    ACTION Create_tree ( T )
    SOIENT
        V UN VECTEUR ( 100 ) DE ENTIER ;
