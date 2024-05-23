@@ -1,22 +1,25 @@
+
    SOIENT
-   //===================== Variables =======================================
+{=========================== Variables =================================}
        Tree : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
-       Val UN ENTIER ;
        S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
-   //===================== Modules =======================================
+       Val UN ENTIER ;
+{=========================== Modules =================================}
+       Isuniquevalue : FONCTION ( BOOLEEN ) ;
        Insert UNE ACTION ;
        Create_tree UNE ACTION ;
        Display UNE ACTION ;
-   //===================== Programme Principale =======================================  
+{====================== Programme Principaples ======================}      
    DEBUT
        APPEL Create_tree ( Tree ) ;
        APPEL Display ( Tree ) ;
       
    FIN
 
-  //===================== Implimentation des modules =======================================
-  
-  //Inserts a value in a binary search tree rule (doesn't treat the case where the value exists)  
+{=================== Implimentation des modules ======================}
+
+{inserts a node in binary search tree with a given value, initialized at false (not visited)}
+{doesn't treat case of value exists cause it will be treated when creating the tree and generating the values}
    ACTION Insert ( T , Val )
    SOIENT
        T , R DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
@@ -50,27 +53,60 @@
       
    FIN
 
-   // Creates a binary search tree with 100 random data all initialized to false (not visited)
-   ACTION Create_tree ( T )
+{ Checks the unicity of a given val, Returns false if it already exists in the tree }
+   FONCTION Isuniquevalue ( T , Val ) : BOOLEEN
    SOIENT
-       V UN VECTEUR ( 100 ) DE ENTIER ;
-       T , R DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
-       I , Value UN ENTIER ;
+       T : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+       Val UN ENTIER ;
       
    DEBUT
-       POUR I := 1 , 100
-           AFF_ELEMENT ( V [ I ] , ALEANOMBRE ( 1000 ) ) ;
+       SI T = NIL :
+           Isuniquevalue := VRAI ;
           
-       FPOUR ;
-       POUR I := 1 , 100
-           Value := ELEMENT ( V [ I ] ) ;
-           APPEL Insert ( T , Value ) ;
+       SINON
+           SI Val = STRUCT ( INFO ( T ) , 1 ) :
+               Isuniquevalue := FAUX ;
+              
+           SINON
+               SI Val < STRUCT ( INFO ( T ) , 1 ) :
+                   Isuniquevalue := Isuniquevalue ( FG ( T ) , Val ) ;
+                  
+               SINON
+                   Isuniquevalue := Isuniquevalue ( FD ( T ) , Val ) ;
+                  
+               FSI ;
+              
+           FSI ;
           
-       FPOUR ;
+       FSI ;
       
    FIN
 
-   // Displays nodes inorder (did it for verification)
+{ Generates a tree with 100 random data initialized at false }
+{ All 100 value are checked to be unique }
+   ACTION Create_tree ( T )
+   SOIENT
+       T : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+       I , Value UN ENTIER ;
+       Check UN BOOLEEN ;
+      
+   DEBUT
+       POUR I := 1 , 100
+           Value := ALEANOMBRE ( 1000 ) ;
+           Check := Isuniquevalue ( T , Value ) ;
+           TANTQUE Check = FAUX
+   {if it indicates that the value exists in the tree, it will generate other until it's unique }
+               Value := ALEANOMBRE ( 1000 ) ;
+               Check := Isuniquevalue ( T , Value ) ;
+              
+           FTQ ;
+           APPEL Insert ( T , Value ) ;
+          
+       FINPOUR ;
+      
+   FIN
+
+{ Displays a tree inorder (did it just for check) }
    ACTION Display ( T )
    SOIENT
        T : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
