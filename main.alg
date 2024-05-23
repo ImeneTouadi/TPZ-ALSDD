@@ -4,16 +4,27 @@
        Tree : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
        S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
        Val UN ENTIER ;
+       B UN BOOLEEN;
 {=========================== Modules =================================}
        Isuniquevalue : FONCTION ( BOOLEEN ) ;
+       Isbst : FONCTION ( BOOLEEN ) ;
        Insert UNE ACTION ;
        Create_tree UNE ACTION ;
        Display UNE ACTION ;
-{====================== Programme Principaples ======================}      
+{====================== Programme Principaples ======================}
    DEBUT
        APPEL Create_tree ( Tree ) ;
        APPEL Display ( Tree ) ;
-      
+       B := Isbst ( Tree , -1000 , 1000 ) ;
+      { Min and Max values are put -1000 to 1000 because of the interval of generating the random numbers }
+       SI B = VRAI
+           ECRIRE ( 'Tree is a BST.' ) ;
+
+       SINON
+           ECRIRE ( 'Tree is NOT a BST.' ) ;
+
+       FSI ;
+
    FIN
 
 {=================== Implimentation des modules ======================}
@@ -25,7 +36,7 @@
        T , R DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
        S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
        Val UN ENTIER ;
-      
+
    DEBUT
        AFF_STRUCT ( S , 1 , Val ) ;
        AFF_STRUCT ( S , 2 , FAUX ) ;
@@ -35,22 +46,22 @@
            AFF_FG ( T , NIL ) ;
            AFF_FD ( T , NIL ) ;
            R := T ;
-          
+
        SINON
            SI Val < STRUCT ( INFO ( T ) , 1 )
                R := FG ( T ) ;
                APPEL Insert ( R , Val ) ;
                AFF_FG ( T , R ) ;
-              
+
            SINON
                R := FD ( T ) ;
                APPEL Insert ( R , Val ) ;
                AFF_FD ( T , R ) ;
-              
+
            FSI ;
-          
+
        FSI ;
-      
+
    FIN
 
 { Checks the unicity of a given val, Returns false if it already exists in the tree }
@@ -58,28 +69,28 @@
    SOIENT
        T : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
        Val UN ENTIER ;
-      
+
    DEBUT
        SI T = NIL :
            Isuniquevalue := VRAI ;
-          
+
        SINON
            SI Val = STRUCT ( INFO ( T ) , 1 ) :
                Isuniquevalue := FAUX ;
-              
+
            SINON
                SI Val < STRUCT ( INFO ( T ) , 1 ) :
                    Isuniquevalue := Isuniquevalue ( FG ( T ) , Val ) ;
-                  
+
                SINON
                    Isuniquevalue := Isuniquevalue ( FD ( T ) , Val ) ;
-                  
+
                FSI ;
-              
+
            FSI ;
-          
+
        FSI ;
-      
+
    FIN
 
 { Generates a tree with 100 random data initialized at false }
@@ -89,7 +100,7 @@
        T : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
        I , Value UN ENTIER ;
        Check UN BOOLEEN ;
-      
+
    DEBUT
        POUR I := 1 , 100
            Value := ALEANOMBRE ( 1000 ) ;
@@ -98,25 +109,51 @@
    {if it indicates that the value exists in the tree, it will generate other until it's unique }
                Value := ALEANOMBRE ( 1000 ) ;
                Check := Isuniquevalue ( T , Value ) ;
-              
+
            FTQ ;
            APPEL Insert ( T , Value ) ;
-          
+
        FINPOUR ;
-      
+
    FIN
 
 { Displays a tree inorder (did it just for check) }
    ACTION Display ( T )
    SOIENT
        T : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
-      
+
    DEBUT
        SI T <> NIL
            APPEL Display ( FG ( T ) ) ;
            ECRIRE ( INFO ( T ) , '  ' ) ;
            APPEL Display ( FD ( T ) ) ;
-          
+
        FSI ;
-      
+
+   FIN
+
+{ Checks wether the tree satisfies the proprieties of the BST }
+   FONCTION Isbst ( T , Minimum , Maximum ) : BOOLEEN
+   SOIENT
+       Val , Minimum , Maximum UN ENTIER ;
+       Valid UN BOOLEEN ;
+       T : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+
+   DEBUT
+       SI T = NIL
+           Isbst := VRAI ;
+
+       SINON
+           Val := STRUCT ( INFO ( T ) , 1 ) ;
+           SI ( Val <= Minimum ) OU ( Val >= Maximum ) :
+               Isbst := FAUX ;
+
+           SINON
+               Valid := Isbst ( FG ( T ) , Minimum , Val ) ET Isbst ( FD ( T ) , Val , Maximum ) ;
+               Isbst := Valid ;
+
+           FSI ;
+
+       FSI ;
+
    FIN
