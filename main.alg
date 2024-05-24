@@ -12,6 +12,7 @@
        Create_tree UNE ACTION ;
        Display UNE ACTION ;
        LL_LR UNE ACTION ;
+       LL_RL UNE ACTION ;
 {====================== Programme Principaples ======================}
    DEBUT
        APPEL Create_tree ( Tree ) ;
@@ -214,3 +215,56 @@
         FSI ;
 
    FIN
+
+{ Gives the leaves of the tree from right to left (Their children are NIL or visited) }
+   ACTION LL_RL ( T )
+   SOIENT
+         T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
+
+   DEBUT
+
+        SI T <> NIL
+           SI FD(T) = NIL
+              SI FG(T) = NIL
+                 ECRIRE ( INFO ( T ) , ' ' ) ;
+                 AFF_STRUCT ( S , 1 , STRUCT(INFO(T), 1) ) ;
+                 AFF_STRUCT ( S , 2 , VRAI ) ;
+                 AFF_INFO ( T , S ) ;
+              SINON
+                 SI STRUCT(INFO(FG(T)),2) = VRAI
+                    ECRIRE ( INFO ( T ) , ' ' ) ;
+                    AFF_STRUCT ( S , 1 , STRUCT(INFO(T), 1) ) ;
+                    AFF_STRUCT ( S , 2 , VRAI ) ;
+                    AFF_INFO ( T , S ) ;
+                 SINON
+                    APPEL LL_RL (FG(T)) ;
+                 FSI ;
+              FSI ;
+           SINON
+              SI STRUCT(INFO(FD(T)),2) = VRAI
+                 SI FG(T) = NIL
+                    ECRIRE ( INFO ( T ) , ' ' ) ;
+                    AFF_STRUCT ( S , 1 , STRUCT(INFO(T), 1) ) ;
+                    AFF_STRUCT ( S , 2 , VRAI ) ;
+                    AFF_INFO ( T , S ) ;
+                 SINON
+                    SI STRUCT(INFO(FG(T)),2) = VRAI
+                       ECRIRE ( INFO ( T ) , ' ' ) ;
+                       AFF_STRUCT ( S , 1 , STRUCT(INFO(T), 1) ) ;
+                       AFF_STRUCT ( S , 2 , VRAI ) ;
+                       AFF_INFO ( T , S ) ;
+                    SINON
+                       APPEL LL_RL (FG(T)) ;
+                    FSI ;
+                 FSI ;
+              SINON
+                 APPEL LL_RL (FD(T)) ;
+                 SI FG(T) <> NIL
+                    APPEL LL_RL (FG(T)) ;
+                 FSI ;
+              FSI ;
+           FSI ;
+        FSI ;
+
+   FIN 
