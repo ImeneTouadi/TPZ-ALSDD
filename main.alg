@@ -3,18 +3,20 @@
 {=========================== Variables =================================}
        Tree : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
        S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
-       Val , hauteur UN ENTIER ;
+       Val UN ENTIER ;
        B UN BOOLEEN;
 {=========================== Modules =================================}
        Isuniquevalue : FONCTION ( BOOLEEN ) ;
        Isbst : FONCTION ( BOOLEEN ) ;
-       HEIGHT : FONCTION ( ENTIER ) :
+       HEIGHT : FONCTION ( ENTIER ) ;
        Insert UNE ACTION ;
        Create_tree UNE ACTION ;
        Display UNE ACTION ;
        LL_LR UNE ACTION ;
        LL_RL UNE ACTION ;
        ArbreExemple UNE ACTION ;
+       Traversal_2 UNE ACTION ;
+       Traversal_4 UNE ACTION ;
 {====================== Programme Principaples ======================}
    DEBUT
        APPEL Create_tree ( Tree ) ;
@@ -29,12 +31,8 @@
 
        FSI ;
 
-       ECRIRE ( ' LEAVES ' ) ;
-       APPEL LL_LR ( Tree ) ;
-
-       ECRIRE ( ' HEIGHT ' ) ;
-       hauteur := HEIGHT ( Tree ) ;
-       ECRIRE ( hauteur , ' ' ) ;
+       ECRIRE ( ' LEAVES LL_LR ' ) ;
+       APPEL Traversal_2 ( Tree ) ;
 
    FIN
 
@@ -270,7 +268,7 @@
                  APPEL LL_RL (FD(T)) ;
                  SI FG(T) <> NIL
                     SI STRUCT(INFO(FG(T)),2) = FAUX
-                       APPEL LL_LR (FG(T)) ;
+                       APPEL LL_RL (FG(T)) ;
                     FSI ;
                  FSI ;
               FSI ;
@@ -350,3 +348,27 @@
            FSI
         FSI
    FIN
+
+   ACTION Traversal_2 ( T )
+   SOIENT
+         T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
+         i , hauteur UN ENTIER ;
+   DEBUT
+        hauteur := HEIGHT ( T ) ;
+        POUR i:=1 , hauteur
+             APPEL LL_LR  ( T ) ;
+        FINPOUR ;
+   FIN
+
+   ACTION Traversal_4 ( T )
+   SOIENT
+         T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
+         i , hauteur UN ENTIER ;
+   DEBUT
+        hauteur := HEIGHT ( T ) ;
+        POUR i:=1 , hauteur
+             APPEL LL_RL  ( T ) ;
+        FINPOUR ;
+   FIN 
