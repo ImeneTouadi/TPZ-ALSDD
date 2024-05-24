@@ -214,7 +214,9 @@
               SINON
                  APPEL LL_LR (FG(T)) ;
                  SI FD(T) <> NIL
-                    APPEL LL_LR (FD(T)) ;
+                    SI STRUCT(INFO(FD(T)),2) = FAUX
+                       APPEL LL_LR (FD(T)) ;
+                    FSI ;
                  FSI ;
               FSI ;
            FSI ;
@@ -267,7 +269,9 @@
               SINON
                  APPEL LL_RL (FD(T)) ;
                  SI FG(T) <> NIL
-                    APPEL LL_RL (FG(T)) ;
+                    SI STRUCT(INFO(FG(T)),2) = FAUX
+                       APPEL LL_LR (FG(T)) ;
+                    FSI ;
                  FSI ;
               FSI ;
            FSI ;
