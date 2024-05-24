@@ -13,6 +13,7 @@
        Display UNE ACTION ;
        LL_LR UNE ACTION ;
        LL_RL UNE ACTION ;
+       ArbreExemple UNE ACTION ;
 {====================== Programme Principaples ======================}
    DEBUT
        APPEL Create_tree ( Tree ) ;
@@ -268,3 +269,54 @@
         FSI ;
 
    FIN 
+
+{ Just an exemple of a tree to test the functions }
+   ACTION ArbreExemple ( T )
+   SOIENT
+         T , R , R2 DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
+
+   DEBUT
+        CREERNOEUD ( T ) ;
+        AFF_STRUCT ( S , 1 , 45 ) ;
+        AFF_STRUCT ( S , 2 , FAUX ) ;
+        AFF_INFO ( T , S ) ;
+
+        CREERNOEUD ( R ) ;
+        AFF_STRUCT ( S , 1 , 20 ) ;
+        AFF_STRUCT ( S, 2 , FAUX ) ;
+        AFF_INFO ( R , S ) ;
+        AFF_FG ( T , R ) ;
+
+        CREERNOEUD ( R2 ) ;
+        AFF_STRUCT ( S , 1 , 10 ) ;
+        AFF_STRUCT ( S, 2 , FAUX ) ;
+        AFF_INFO ( R2 , S ) ;
+        AFF_FG ( R , R2 ) ;
+        AFF_FG ( R2 , NIL ) ;
+        AFF_FD ( R2 , NIL ) ;
+
+        CREERNOEUD ( R2 ) ;
+        AFF_STRUCT ( S , 1 , 35 ) ;
+        AFF_STRUCT ( S, 2 , FAUX ) ;
+        AFF_INFO ( R2 , S ) ;
+        AFF_FD ( R , R2 ) ;
+        AFF_FG ( R2 , NIL ) ;
+        AFF_FD ( R2 , NIL ) ;
+
+        CREERNOEUD ( R ) ;
+        AFF_STRUCT ( S , 1 , 65 ) ;
+        AFF_STRUCT ( S, 2 , FAUX ) ;
+        AFF_INFO ( R , S ) ;
+        AFF_FD ( T , R ) ;
+        AFF_FG ( R , NIL ) ;
+
+        CREERNOEUD ( R2 ) ;
+        AFF_STRUCT ( S , 1 , 55 ) ;
+        AFF_STRUCT ( S, 2 , FAUX ) ;
+        AFF_INFO ( R2 , S ) ;
+        AFF_FG ( R , R2 ) ;
+        AFF_FG ( R2 , NIL ) ;
+        AFF_FD ( R2 , NIL ) ;
+
+   FIN
