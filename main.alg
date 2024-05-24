@@ -3,11 +3,12 @@
 {=========================== Variables =================================}
        Tree : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
        S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
-       Val UN ENTIER ;
+       Val , hauteur UN ENTIER ;
        B UN BOOLEEN;
 {=========================== Modules =================================}
        Isuniquevalue : FONCTION ( BOOLEEN ) ;
        Isbst : FONCTION ( BOOLEEN ) ;
+       HEIGHT : FONCTION ( ENTIER ) :
        Insert UNE ACTION ;
        Create_tree UNE ACTION ;
        Display UNE ACTION ;
@@ -30,6 +31,10 @@
 
        ECRIRE ( ' LEAVES ' ) ;
        APPEL LL_LR ( Tree ) ;
+
+       ECRIRE ( ' HEIGHT ' ) ;
+       hauteur := HEIGHT ( Tree ) ;
+       ECRIRE ( hauteur , ' ' ) ;
 
    FIN
 
@@ -319,4 +324,25 @@
         AFF_FG ( R2 , NIL ) ;
         AFF_FD ( R2 , NIL ) ;
 
+   FIN
+
+{ Calculates the height of a tree }
+   FONCTION HEIGHT ( T ) : ENTIER
+   SOIENT
+         T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         LH , RH UN ENTIER ;
+
+   DEBUT
+        SI T = NIL
+           HEIGHT := 0 ;
+        SINON
+           LH := HEIGHT (FG(T)) ;
+           RH := HEIGHT (FD(T)) ;
+
+           SI LH > RH
+              HEIGHT := LH + 1 ;
+           SINON
+              HEIGHT := RH + 1 ;
+           FSI
+        FSI
    FIN
