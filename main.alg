@@ -2,6 +2,7 @@
    SOIENT
 {=========================== Variables =================================}
        Tree : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+       Head_BBLR, Head_BBRL DES POINTEURS VERS UNE LISTE DE ENTIER ;  
        S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
        TAB_LL UN VECTEUR ( 100 ) DE ENTIER ;
        Val UN ENTIER ;
@@ -12,16 +13,23 @@
        HEIGHT : FONCTION ( ENTIER ) ;
        Insert UNE ACTION ;
        Create_tree UNE ACTION ;
-       Display UNE ACTION ;
+       Display UNE ACTION ;      {inorder/for chack}
+       Displaylist UNE ACTION;
+       AddToList UNE ACTION;
+       EliminateDuplicates UNE ACTION;
        ArbreExemple UNE ACTION ;
           {BB-LR}
        Mostleft : FONCTION (POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ));
        Nextright UNE ACTION;
-       Traversal_1 UNE ACTION; 
+       Traversal_1 UNE ACTION;
+       Normal_BBLR UNE ACTION; {branche by branche traversal with repeated nodes}
+       CheckTraversal_1 : FONCTION ( BOOLEEN );
           {BB-RL}
        Mostright : FONCTION (POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ));
        Nextleft UNE ACTION;
        Traversal_3 UNE ACTION;
+       Normal_BBRL UNE ACTION;
+       CheckTraversal_3 : FONCTION ( BOOLEEN );
           {LL_LR}
        LL_LR UNE ACTION ;
        Traversal_2 UNE ACTION ;
@@ -45,10 +53,8 @@
 
        FSI ;
 
-       ECRIRE ( ' LEAVES LL_LR ' ) ;
+       {ECRIRE ( ' LEAVES LL_LR ' ) ;
        APPEL Traversal_2 ( Tree , TAB_LL ) ;
-       { ECRIRE ( ' LEAVES BB_RL ' ) ;
-       APPEL traversal_3 ( Tree ) ; }
 
        ECRIRE ( ' CHECK TRAVERSAL 2 ' ) ;
        B := Check_Traversal_4 ( Tree , TAB_LL ) ;
@@ -58,7 +64,17 @@
        SINON
            ECRIRE ( ' The traversal is not correct. ' ) ;
 
-       FSI ;
+       FSI ;}
+
+       ECRIRE ( ' LEAVES BB_RL ' ) ;
+       APPEL traversal_3( Tree , Head_BBRL );
+       APPEL Displaylist( Head_BBRL );
+
+       SI CheckTraversal_3( Tree, Head_BBRL)
+          ecrire('Your traversal is correct');
+       SINON
+          ecrire('Your traversal is wrong');
+       FSI   
 
    FIN
 
@@ -167,6 +183,63 @@
 
    FIN
 
+{Displays the values of a list }
+ACTION DisplayList(Head)
+SOIT
+    Head, current DES POINTEURS VERS UNE LISTE DE ENTIER;
+DEBUT
+    current := Head;
+    TQ current <> NIL
+        ECRIRE(VALEUR(current));
+        current := SUIVANT(current);
+    FTQ
+FIN
+
+{Insertion at the end of the list}
+ACTION AddToList( Head, val )
+SOIT
+    Head , Cell , current DES POINTEURS VERS UNE LISTE DE ENTIER ;
+    val UN ENTIER ;
+DEBUT
+    ALLOUER (Cell);
+    AFF_VAL(Cell, val);
+    AFF_ADR (Cell , NIL);
+    SI Head = NIL
+        head := Cell;
+    SINON
+        current := Head;
+        TQ SUIVANT(current) <> NIL
+            current := SUIVANT(current);
+        FTQ   ;
+        AFF_ADR(current, Cell);
+    FSI ;
+FIN
+
+{Eliminates duplicated values in a list}
+ACTION EliminateDuplicates(Head)
+SOIT
+    Head, current, comparer, previous DES POINTEUR VERS UNE LISTE DE ENTIER;
+DEBUT
+    current := Head  ;
+    TQ current <> NIL
+        previous := current ;
+        comparer := SUIVANT(current);
+
+        TQ comparer <> NIL
+            SI VALEUR(comparer) = VALEUR(current)
+                AFF_ADR( previous , SUIVANT(comparer) );
+                LIBERER ( comparer );
+                comparer := SUIVANT( previous );
+            SINON
+                previous := comparer ;
+                comparer := SUIVANT(comparer);
+            FSI  ;
+        FTQ  ;
+
+        current := SUIVANT(current);
+    FTQ
+FIN
+
 { Checks wether the tree satisfies the proprieties of the BST }
    FONCTION Isbst ( T , Minimum , Maximum ) : BOOLEEN
    SOIENT
@@ -270,6 +343,8 @@
         FSI
    FIN
 
+       { ============= TRAVERSAL 1 : BB_LR ============= }
+
 { Gives the most left leaf of a given tree ( or sub-tree ) }
    FONCTION Mostleft ( T ) : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN )
    SOIT
@@ -325,9 +400,11 @@
 
    FIN
 
-   ACTION Traversal_1 ( T )
+      {Traverses the tree by BB-LR and returns the values in a list}
+   ACTION Traversal_1 ( T , Head )
    SOIT
        T UN POINTEUR VERS UN ARB DE ( ENTIERS , BOOLEEN ) ;
+       Head UN POINTEURS VERS UNE LISTE DE ENTIER ;
        P , F , Q , S DES POINTEURS VERS UN ARB DE (ENTIERS,BOOLEEN) ;
        Up UN BOOLEEN ;
    DEBUT
@@ -336,8 +413,9 @@
        TQ F <> NIL
            S := F ;      {S is to save the current leaf so that we can move to exactly the next leaf}
            SI STRUCT(INFO(F),2)=FAUX
-           ECRIRE ( INFO ( F ) ) ;        {We ascend while processing the nodes}
+        {We ascend while processing the nodes}
            AFF_STRUCT ( INFO(F), 2 , VRAI ); {We mark the processed nodes as visited}
+           APPEL AddToList(Head, STRUCT(INFO(F),1));
            FSI  ;
            Q := F ;
            P := PERE ( Q ) ;
@@ -346,10 +424,10 @@
                SI STRUCT(INFO(P),2)  {While ascending if we found an already visited node we stop}
                    Up := FAUX
                SINON                  {Else we keep going up}
-                   ECRIRE ( INFO ( P ) ) ;
                    AFF_STRUCT ( INFO(P), 2 , VRAI );
+                   APPEL AddToList(Head, STRUCT(INFO(P),1));
                    Q := P ;
-                   P := PERE ( P )
+                   P := PERE ( P );
                FSI
            FTQ ;
  {once we stop ascending, either we reached the root or a visited node}
@@ -357,6 +435,58 @@
          APPEL Nextright ( S , F )
        FTQ
    FIN
+
+   { Normal branche by branche from left to right traversal (repeated nodes)}
+   { Returns the head of the constructed list  }
+   ACTION Normal_BBLR ( T , Head )
+   SOIT
+       Head UN POINTEUR VERS UNE LISTE DE ENTIER ;
+       T UN POINTEUR VERS UN ARB DE ( ENTIERS , BOOLEEN ) ;
+       P , F , Q , S DES POINTEURS VERS UN ARB DE (ENTIERS,BOOLEEN) ;
+   DEBUT
+       P := Mostleft(T);
+       F := P ;
+       TQ F <> NIL
+           S := F ;
+           APPEL AddToList( Head, STRUCT(INFO(F),1) );
+
+           Q := F ;
+           P := PERE ( Q ) ;
+           TQ ( P <> NIL )
+              APPEL AddToList(Head, STRUCT(INFO(P),1));
+
+              Q := P ;
+              P := PERE ( P );
+           FTQ ;
+         APPEL Nextright ( S , F )  ;
+       FTQ
+   FIN
+
+
+FONCTION CheckTraversal_1 ( Tree , Head_BBLR ):BOOLEEN
+SOIENT
+      Tree UN POINTEUR VERS UN ARB DE (ENTIER,BOOLEEN);
+      Head_BBLR, Head_Check DES POINTEURS VERS UNE LISTE DE ENTIER ;
+DEBUT
+     APPEL normal_BBLR( Tree, Head_Check );
+     APPEL EliminateDuplicates(Head_Check);
+     TQ (Head_BBLR <> NIL) ET (Head_Check <> NIL)
+        SI VALEUR(Head_BBLR) <> VALEUR(Head_Check)
+            CheckTraversal_1 := FAUX;
+        FSI;
+        Head_BBLR := SUIVANT(Head_BBLR);
+        Head_Check := SUIVANT(Head_Check);
+    FTQ;
+
+    SI (Head_BBLR = NIL) ET (Head_Check = NIL)
+        CheckTraversal_1 := VRAI;
+    SINON
+        CheckTraversal_1 := FAUX;
+    FSI;
+
+FIN
+
+       { ============= TRAVERSAL 3 : BB_RL ============= }
 
    { Gives the most right leaf of a given tree ( or sub-tree ) }
    FONCTION Mostright ( T ) : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN )
@@ -413,9 +543,11 @@
 
    FIN
 
-   ACTION Traversal_3 ( T )
+      {Traverses the tree BB-RL and returns the values in a list}
+   ACTION Traversal_3 ( T , Head )
    SOIT
        T UN POINTEUR VERS UN ARB DE ( ENTIERS , BOOLEEN ) ;
+       Head UN POINTEURS VERS UNE LISTE DE ENTIER ;
        P , F , Q , S DES POINTEURS VERS UN ARB DE (ENTIERS,BOOLEEN) ;
        Up UN BOOLEEN ;
    DEBUT
@@ -424,8 +556,9 @@
        TQ F <> NIL
            S := F ;  {S is to save the current leaf so that we can move to exactly the next leaf}
            SI STRUCT(INFO(F),2)=FAUX
-           ECRIRE ( INFO ( F ) ) ;       {We ascend while processing the nodes}
+       {We ascend while processing the nodes}
            AFF_STRUCT ( INFO(F), 2 , VRAI ); {We mark the processed nodes as visited}
+           APPEL AddToList(Head, STRUCT(INFO(F),1))  ;
            FSI  ;
            Q := F ;
            P := PERE ( Q ) ;
@@ -433,18 +566,69 @@
            TQ ( P <> NIL ) ET Up
                SI STRUCT(INFO(P),2)
                    Up := FAUX     {While ascending if we found an already visited node we stop}
-               SINON
-                   ECRIRE ( INFO ( P ) ) ;    {Else we keep going up}
+               SINON              {Else we keep going up}
+
                    AFF_STRUCT ( INFO(P), 2 , VRAI );
+                   APPEL AddToList(Head, STRUCT(INFO(P),1))  ;
                    Q := P ;
-                   P := PERE ( P )
+                   P := PERE ( P );
                FSI
            FTQ ;
  {once we stop ascending, either we reached the root or a visited node}
  {we move on to the next leaf to start again}
          APPEL Nextleft ( S , F )
        FTQ
-   FIN 
+   FIN
+
+   { Normal branche by branche from right to left traversal (repeated nodes)}
+   { Returns the head of the constructed list  }
+   ACTION Normal_BBRL ( T , Head )
+   SOIT
+       Head UN POINTEUR VERS UNE LISTE DE ENTIER ;
+       T UN POINTEUR VERS UN ARB DE ( ENTIERS , BOOLEEN ) ;
+       P , F , Q , S DES POINTEURS VERS UN ARB DE (ENTIERS,BOOLEEN) ;
+   DEBUT
+
+       P := Mostright(T);
+       F := P ;
+       TQ F <> NIL
+           S := F ;
+           APPEL AddToList(Head, STRUCT(INFO(F),1))  ;
+
+           Q := F ;
+           P := PERE ( Q ) ;
+           TQ ( P <> NIL )
+           APPEL AddToList(Head, STRUCT(INFO(P),1))  ;
+
+              Q := P ;
+              P := PERE ( P )  ;
+           FTQ ;
+         APPEL Nextleft ( S , F ) ;
+       FTQ
+   FIN
+
+FONCTION CheckTraversal_3 ( Tree , Head_BBRL ):BOOLEEN
+SOIENT
+      Tree UN POINTEUR VERS UN ARB DE (ENTIER,BOOLEEN);
+      Head_BBRL, Head_Check DES POINTEURS VERS UNE LISTE DE ENTIER ;
+DEBUT
+     APPEL normal_BBRL( Tree, Head_Check );
+     APPEL EliminateDuplicates(Head_Check);
+     TQ (Head_BBRL <> NIL) ET (Head_Check <> NIL)
+        SI VALEUR(Head_BBRL) <> VALEUR(Head_Check)
+            CheckTraversal_3 := FAUX;
+        FSI;
+        Head_BBRL := SUIVANT(Head_BBRL);
+        Head_Check := SUIVANT(Head_Check);
+    FTQ;
+
+    SI (Head_BBRL = NIL) ET (Head_Check = NIL)
+        CheckTraversal_3 := VRAI;
+    SINON
+        CheckTraversal_3 := FAUX;
+    FSI;
+
+FIN
 
        { ============= TRAVERSAL 2 : LL_LR ============= }
 
