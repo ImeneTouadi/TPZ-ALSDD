@@ -25,9 +25,11 @@
           {LL_LR}
        LL_LR UNE ACTION ;
        Traversal_2 UNE ACTION ;
+       Check_Traversal_2 : FONCTION ( BOOLEEN ) ;
           {LL_RL}
        LL_RL UNE ACTION ;
        Traversal_4 UNE ACTION ;
+       Check_Traversal_4 : FONCTION ( BOOLEEN ) ;
 {====================== Programme Principaples ======================}
    DEBUT
        {APPEL Create_tree ( Tree ) ;}
@@ -43,10 +45,20 @@
 
        FSI ;
 
-       { ECRIRE ( ' LEAVES LL_LR ' ) ;
-       APPEL Traversal_2 ( Tree , TAB_LL ) ; }
-       ECRIRE ( ' LEAVES BB_RL ' ) ;
-       APPEL traversal_3( Tree );
+       ECRIRE ( ' LEAVES LL_LR ' ) ;
+       APPEL Traversal_2 ( Tree , TAB_LL ) ;
+       { ECRIRE ( ' LEAVES BB_RL ' ) ;
+       APPEL traversal_3 ( Tree ) ; }
+
+       ECRIRE ( ' CHECK TRAVERSAL 2 ' ) ;
+       B := Check_Traversal_4 ( Tree , TAB_LL ) ;
+       SI B = VRAI
+           ECRIRE ( ' The traversal is correct. ' ) ;
+
+       SINON
+           ECRIRE ( ' The traversal is not correct. ' ) ;
+
+       FSI ;
 
    FIN
 
@@ -516,6 +528,50 @@
         FINPOUR ;
    FIN
 
+{ Checks if the traversal 2 (LL_LR) is correct by deleting the visited leaves and comparing them with TAB_LL }
+   FONCTION Check_Traversal_2 ( T , TAB_LL ) : BOOLEEN
+   SOIENT
+         T , R , R2 , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
+         TAB_LL UN VECTEUR ( 10 ) DE ENTIER ;
+         i UN ENTIER ;
+         Check UN BOOLEEN ;
+
+   DEBUT
+        R := NIL ;
+        Check := VRAI ;
+        i := 1 ;
+        TQ ( T <> NIL ) ET ( Check = VRAI )
+           SI R = NIL
+              R := Mostleft ( T ) ;
+           FSI ;
+
+           APPEL Nextright ( R , R2 ) ;
+           P := PERE ( R ) ;
+
+           SI STRUCT(INFO(R),1) = ELEMENT(TAB_LL[i])
+              SI p <> NIL
+                 SI R = FG ( P )
+                    AFF_FG ( P , NIL ) ;
+                 SINON
+                    AFF_FD ( P , NIL ) ;
+                 FSI ;
+              SINON
+                 T := NIL ;
+              FSI ;
+
+           SINON
+              Check := FAUX ;
+
+           FSI ;
+
+           i := i + 1 ;
+           R := R2 ;
+        FTQ ;
+
+        Check_Traversal_2 := Check ;
+   FIN
+
        { ============= TRAVERSAL 4 : LL_RL ============= }
 
 { Gives the leaves of the tree from right to left (Their children are NIL or visited) }
@@ -598,3 +654,46 @@
         FINPOUR ;
    FIN 
 
+{ Checks if the traversal 4 (LL_RL) is correct by deleting the visited leaves and comparing them with TAB_LL }
+   FONCTION Check_Traversal_4 ( T , TAB_LL ) : BOOLEEN
+   SOIENT
+         T , R , R2 , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
+         TAB_LL UN VECTEUR ( 10 ) DE ENTIER ;
+         i UN ENTIER ;
+         Check UN BOOLEEN ;
+
+   DEBUT
+        R := NIL ;
+        Check := VRAI ;
+        i := 1 ;
+        TQ ( T <> NIL ) ET ( Check = VRAI )
+           SI R = NIL
+              R := Mostright ( T ) ;
+           FSI ;
+
+           APPEL Nextleft ( R , R2 ) ;
+           P := PERE ( R ) ;
+
+           SI STRUCT(INFO(R),1) = ELEMENT(TAB_LL[i])
+              SI p <> NIL
+                 SI R = FG ( P )
+                    AFF_FG ( P , NIL ) ;
+                 SINON
+                    AFF_FD ( P , NIL ) ;
+                 FSI ;
+              SINON
+                 T := NIL ;
+              FSI ;
+
+           SINON
+              Check := FAUX ;
+
+           FSI ;
+
+           i := i + 1 ;
+           R := R2 ;
+        FTQ ;
+
+        Check_Traversal_4 := Check ;
+   FIN
