@@ -17,9 +17,18 @@
        ArbreExemple UNE ACTION ;
        Traversal_2 UNE ACTION ;
        Traversal_4 UNE ACTION ;
+         {BB-LR}
+       Mostleft : FONCTION (POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ));
+       Nextright UNE ACTION;
+       Traversal_1 UNE ACTION; 
+         {BB-RL}
+       Mostright : FONCTION (POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ));
+       Nextleft UNE ACTION;
+       Traversal_3 UNE ACTION;    
 {====================== Programme Principaples ======================}
    DEBUT
-       APPEL Create_tree ( Tree ) ;
+       {APPEL Create_tree ( Tree ) ;}
+       APPEL ArbreExemple ( Tree );
        APPEL Display ( Tree ) ;
        B := Isbst ( Tree , -1000 , 1000 ) ;
       { Min and Max values are put -1000 to 1000 because of the interval of generating the random numbers }
@@ -31,8 +40,10 @@
 
        FSI ;
 
-       ECRIRE ( ' LEAVES LL_LR ' ) ;
-       APPEL Traversal_2 ( Tree ) ;
+       {ECRIRE ( ' LEAVES LL_LR ' ) ;
+       APPEL Traversal_2 ( Tree ) ; }
+       ECRIRE ( ' LEAVES BB_RL ' ) ;
+       APPEL traversal_3( Tree );
 
    FIN
 
@@ -288,18 +299,21 @@
         AFF_STRUCT ( S , 1 , 45 ) ;
         AFF_STRUCT ( S , 2 , FAUX ) ;
         AFF_INFO ( T , S ) ;
+        AFF_PERE (T , NIL );
 
         CREERNOEUD ( R ) ;
         AFF_STRUCT ( S , 1 , 20 ) ;
         AFF_STRUCT ( S, 2 , FAUX ) ;
         AFF_INFO ( R , S ) ;
         AFF_FG ( T , R ) ;
+        AFF_PERE ( R , T );
 
         CREERNOEUD ( R2 ) ;
         AFF_STRUCT ( S , 1 , 10 ) ;
         AFF_STRUCT ( S, 2 , FAUX ) ;
         AFF_INFO ( R2 , S ) ;
         AFF_FG ( R , R2 ) ;
+        AFF_PERE ( R2 , R );
         AFF_FG ( R2 , NIL ) ;
         AFF_FD ( R2 , NIL ) ;
 
@@ -308,6 +322,7 @@
         AFF_STRUCT ( S, 2 , FAUX ) ;
         AFF_INFO ( R2 , S ) ;
         AFF_FD ( R , R2 ) ;
+        AFF_PERE ( R2 , R );
         AFF_FG ( R2 , NIL ) ;
         AFF_FD ( R2 , NIL ) ;
 
@@ -316,6 +331,7 @@
         AFF_STRUCT ( S, 2 , FAUX ) ;
         AFF_INFO ( R , S ) ;
         AFF_FD ( T , R ) ;
+        AFF_PERE ( R , T );
         AFF_FG ( R , NIL ) ;
 
         CREERNOEUD ( R2 ) ;
@@ -323,9 +339,9 @@
         AFF_STRUCT ( S, 2 , FAUX ) ;
         AFF_INFO ( R2 , S ) ;
         AFF_FG ( R , R2 ) ;
+        AFF_PERE ( R2 , R );
         AFF_FG ( R2 , NIL ) ;
         AFF_FD ( R2 , NIL ) ;
-
    FIN
 
 { Calculates the height of a tree }
@@ -371,4 +387,180 @@
         POUR i:=1 , hauteur
              APPEL LL_RL  ( T ) ;
         FINPOUR ;
+   FIN 
+
+{ Gives the most left leaf of a given tree ( or sub-tree ) }
+   FONCTION Mostleft ( T ) : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN )
+   SOIT
+       T , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+       Stop : BOOLEEN ;
+
+   DEBUT
+       P := T ;
+       Stop := FAUX ;
+       TQ NON Stop
+           TQ FG ( P ) <> NIL      {Descend left until the first Nil LC}
+               P := FG ( P )
+           FTQ ;
+           SI FD ( P ) = NIL     {If the node has no RC then we're in the most LC}
+               Stop := VRAI
+           SINON
+               P := FD ( P )     {Else we go right once and procceed to descend left again}
+           FSI
+       FTQ ;
+       Mostleft := P
+   FIN
+
+   { Gives the next leaf on the right of a given leaf }
+   ACTION Nextright ( Leaf , Rightleaf ) ;
+   SOIT
+       Leaf , P , Q , F , Rightleaf DES POINTEURS VERS UN ARB DE ( ENTIERS , BOOLEEN ) ;
+       Up UN BOOLEEN ;
+
+   DEBUT
+       Q := Leaf ;
+       Up := VRAI ;
+       P := PERE ( Q ) ;
+       TQ ( P <> NIL ) ET Up       {We're in the leaf and we go up}
+           SI Q = FD ( P )
+               Q := P ;
+               P := PERE ( Q )
+           SINON
+               SI FD ( P ) <> NIL   {if p has a RC then we stop going up}
+                   Up := FAUX
+               SINON
+                   Q := P ;
+                   P := PERE ( Q )
+               FSI
+           FSI
+       FTQ ;
+       SI P <> NIL
+{Once we get to the parent of the wanted next leaf we descend to the most LC to reach it}
+           F := Mostleft ( FD ( P ) ) ;
+       SINON
+            F := NIL;
+       FSI ;
+       Rightleaf := F ;
+
+   FIN
+
+   ACTION Traversal_1 ( T )
+   SOIT
+       T UN POINTEUR VERS UN ARB DE ( ENTIERS , BOOLEEN ) ;
+       P , F , Q , S DES POINTEURS VERS UN ARB DE (ENTIERS,BOOLEEN) ;
+       Up UN BOOLEEN ;
+   DEBUT
+       P := Mostleft(T);  {We start from the most LC}
+       F := P ;
+       TQ F <> NIL
+           S := F ;      {S is to save the current leaf so that we can move to exactly the next leaf}
+           SI STRUCT(INFO(F),2)=FAUX
+           ECRIRE ( INFO ( F ) ) ;        {We ascend while processing the nodes}
+           AFF_STRUCT ( INFO(F), 2 , VRAI ); {We mark the processed nodes as visited}
+           FSI  ;
+           Q := F ;
+           P := PERE ( Q ) ;
+           Up := VRAI ;
+           TQ ( P <> NIL ) ET Up
+               SI STRUCT(INFO(P),2)  {While ascending if we found an already visited node we stop}
+                   Up := FAUX
+               SINON                  {Else we keep going up}
+                   ECRIRE ( INFO ( P ) ) ;
+                   AFF_STRUCT ( INFO(P), 2 , VRAI );
+                   Q := P ;
+                   P := PERE ( P )
+               FSI
+           FTQ ;
+ {once we stop ascending, either we reached the root or a visited node}
+ {we move on to the next leaf to start again}
+         APPEL Nextright ( S , F )
+       FTQ
+   FIN
+
+   { Gives the most right leaf of a given tree ( or sub-tree ) }
+   FONCTION Mostright ( T ) : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN )
+   SOIT
+       T , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+       Stop : BOOLEEN ;
+
+   DEBUT
+       P := T ;
+       Stop := FAUX ;
+       TQ NON Stop
+           TQ FD ( P ) <> NIL     {Descend right until the first Nil RC}
+               P := FD ( P )
+           FTQ ;
+           SI FG ( P ) = NIL      {If the node has no LC then we're in the most RC}
+               Stop := VRAI
+           SINON
+               P := FG ( P )   {Else we go left once and procceed to descend right again}
+           FSI
+       FTQ ;
+       Mostright := P
+   FIN
+
+   { Gives the next leaf on the left of a given leaf }
+   ACTION Nextleft ( Leaf , leftleaf ) ;
+   SOIT
+       Leaf , P , Q , F , leftleaf DES POINTEURS VERS UN ARB DE ( ENTIERS , BOOLEEN ) ;
+       Up UN BOOLEEN ;
+
+   DEBUT
+       Q := Leaf ;
+       Up := VRAI ;
+       P := PERE ( Q ) ;
+       TQ ( P <> NIL ) ET Up        {We're in the leaf and we go up}
+           SI Q = FG ( P )
+               Q := P ;
+               P := PERE ( Q )
+           SINON
+               SI FG ( P ) <> NIL    {If p has a LC then we stop going up}
+                   Up := FAUX
+               SINON
+                   Q := P ;
+                   P := PERE ( Q )
+               FSI
+           FSI
+       FTQ ;
+       SI P <> NIL
+ {Once we get to the parent of the wanted next leaf we descend to the most RC to reach it}
+           F := Mostright ( FG ( P ) ) ;
+       SINON
+            F := NIL;
+       FSI ;
+       leftleaf := F ;
+
+   FIN
+
+   ACTION Traversal_3 ( T )
+   SOIT
+       T UN POINTEUR VERS UN ARB DE ( ENTIERS , BOOLEEN ) ;
+       P , F , Q , S DES POINTEURS VERS UN ARB DE (ENTIERS,BOOLEEN) ;
+       Up UN BOOLEEN ;
+   DEBUT
+       P := Mostright(T);        {We start from the most RC}
+       F := P ;
+       TQ F <> NIL
+           S := F ;  {S is to save the current leaf so that we can move to exactly the next leaf}
+           SI STRUCT(INFO(F),2)=FAUX
+           ECRIRE ( INFO ( F ) ) ;       {We ascend while processing the nodes}
+           AFF_STRUCT ( INFO(F), 2 , VRAI ); {We mark the processed nodes as visited}
+           FSI  ;
+           Q := F ;
+           P := PERE ( Q ) ;
+           Up := VRAI ;
+           TQ ( P <> NIL ) ET Up
+               SI STRUCT(INFO(P),2)
+                   Up := FAUX     {While ascending if we found an already visited node we stop}
+               SINON
+                   ECRIRE ( INFO ( P ) ) ;    {Else we keep going up}
+                   AFF_STRUCT ( INFO(P), 2 , VRAI );
+                   Q := P ;
+                   P := PERE ( P )
+               FSI
+           FTQ ;
+ {once we stop ascending, either we reached the root or a visited node}
+ {we move on to the next leaf to start again}
+         APPEL Nextleft ( S , F )
+       FTQ
    FIN 
