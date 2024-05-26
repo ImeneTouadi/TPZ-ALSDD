@@ -850,7 +850,7 @@
    SOIENT
          T , R , R2 , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
          S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
-         TAB_LL UN VECTEUR ( 10 ) DE ENTIER ;
+         TAB_LL UN VECTEUR ( 100 ) DE ENTIER ;
          i UN ENTIER ;
          Check UN BOOLEEN ;
 
