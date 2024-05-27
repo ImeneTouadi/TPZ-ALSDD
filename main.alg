@@ -4,6 +4,7 @@
 
        Tree : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
        Head_BBLR , Head_BBRL DES POINTEURS VERS UNE LISTE DE ENTIER ;
+       Head_LLLR , Head_LLRL DES POINTEURS VERS UNE LISTE DE ENTIER ;  
        S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
        Val UN ENTIER ;
        B UN BOOLEEN ;
@@ -16,6 +17,7 @@
           { Creation of the tree }
        Insert UNE ACTION ;
        Create_tree UNE ACTION ;
+       CloneTree : FONCTION (POINTEUR VERS UN ARB DE (ENTIER, BOOLEEN));
        ArbreExemple UNE ACTION ;
        Display UNE ACTION ;      {inorder/for check}
           { Lists }
@@ -203,6 +205,37 @@
        FINPOUR ;
 
    FIN
+
+FONCTION CloneTree(Original): POINTEUR VERS UN ARB DE (ENTIER, BOOLEEN);
+SOIENT
+    Original, clone DES POINTEURS VERS UN ARB DE (ENTIER, BOOLEEN);
+DEBUT
+    SI original = NIL
+        clone := NIL
+    FSI;
+
+    CREERNOEUD ( Clone ) ;
+    AFF_INFO ( Clone , INFO(Original) ) ;
+
+    SI FG(Original) <> NIL
+    AFF_FG(clone, CloneTree(FG(original)));
+    FSI;
+
+    SI FD(Original) <> NIL
+    AFF_FD(clone, CloneTree(FD(original)));
+    FSI;
+
+    SI FG(Clone) <> NIL
+       AFF_PERE(FG(Clone),Clone);
+    FSI;
+
+    SI FD(Clone) <> NIL
+       AFF_PERE(FD(Clone),Clone);
+    FSI;
+
+    CloneTree := Clone;
+
+FIN  
 
 { Displays a tree inorder (did it just for check) }
    ACTION Display ( T )
@@ -691,7 +724,7 @@
         FINPOUR ;
    FIN
 
-{ Checks if the traversal 2 (LL_LR) is correct by deleting the visited leaves and comparing them with TAB_LL }
+{ Checks if the traversal 2 (LL_LR) is correct by deleting the visited leaves and comparing them with List_LL }
    FONCTION CheckTraversal_2 ( T , HeadList ) : BOOLEEN
    SOIENT
          T , R , R2 , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
@@ -800,7 +833,7 @@
         FINPOUR ;
    FIN
 
-{ Checks if the traversal 4 (LL_RL) is correct by deleting the visited leaves and comparing them with TAB_LL }
+{ Checks if the traversal 4 (LL_RL) is correct by deleting the visited leaves and comparing them with List_LL }
    FONCTION CheckTraversal_4 ( T , HeadList ) : BOOLEEN
    SOIENT
          T , R , R2 , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
