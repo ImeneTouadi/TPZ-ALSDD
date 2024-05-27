@@ -5,7 +5,6 @@
        Tree : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
        Head_BBLR , Head_BBRL DES POINTEURS VERS UNE LISTE DE ENTIER ;
        S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
-       TAB_LL UN VECTEUR ( 100 ) DE ENTIER ;
        Val UN ENTIER ;
        B UN BOOLEEN ;
 
@@ -18,7 +17,7 @@
        Insert UNE ACTION ;
        Create_tree UNE ACTION ;
        ArbreExemple UNE ACTION ;
-       Display UNE ACTION ;      {inorder/for chack}
+       Display UNE ACTION ;      {inorder/for check}
           { Lists }
        Displaylist UNE ACTION ;
        AddToList UNE ACTION ;
@@ -38,15 +37,15 @@
        Normal_BBRL UNE ACTION ;
        CheckTraversal_3 : FONCTION ( BOOLEEN ) ;
 
-          {LL_LR}
+          {LL-LR}
        LL_LR UNE ACTION ;
        Traversal_2 UNE ACTION ;
-       Check_Traversal_2 : FONCTION ( BOOLEEN ) ;
+       CheckTraversal_2 : FONCTION ( BOOLEEN ) ;
 
-          {LL_RL}
+          {LL-RL}
        LL_RL UNE ACTION ;
        Traversal_4 UNE ACTION ;
-       Check_Traversal_4 : FONCTION ( BOOLEEN ) ;
+       CheckTraversal_4 : FONCTION ( BOOLEEN ) ;
 
 {====================== PROGRAMME PRINCIPALE ======================}
    DEBUT
@@ -62,19 +61,6 @@
            ECRIRE ( 'Tree is NOT a BST.' ) ;
 
        FSI ;
-
-       {ECRIRE ( ' LEAVES LL_LR ' ) ;
-       APPEL Traversal_2 ( Tree , TAB_LL ) ;
-
-       ECRIRE ( ' CHECK TRAVERSAL 2 ' ) ;
-       B := Check_Traversal_4 ( Tree , TAB_LL ) ;
-       SI B = VRAI
-           ECRIRE ( ' The traversal is correct. ' ) ;
-
-       SINON
-           ECRIRE ( ' The traversal is not correct. ' ) ;
-
-       FSI ;}
 
        ECRIRE ( ' LEAVES BB_RL ' ) ;
        APPEL traversal_3( Tree , Head_BBRL );
@@ -187,6 +173,8 @@
                AFF_FD ( T , R ) ;
 
            FSI ;
+
+           AFF_PERE ( R , T ) ;
 
        FSI ;
 
@@ -640,12 +628,10 @@
        { ============= TRAVERSAL 2 : LL_LR ============= }
 
 { Gives the leaves of the tree from left to right (Their children are NIL or visited) }
-   ACTION LL_LR ( T , TAB_LL , indice )
+   ACTION LL_LR ( T , HeadList )
    SOIENT
          T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
-         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
-         TAB_LL UN VECTEUR ( 100 ) DE ENTIER ;
-         indice UN ENTIER ;
+         HeadList UN POINTEUR VERS UNE LISTE DE ENTIER ;
 
    DEBUT
 
@@ -653,49 +639,37 @@
            SI FG(T) = NIL
               SI FD(T) = NIL
                  ECRIRE ( INFO ( T ) , ' ' ) ;
-                 AFF_STRUCT ( S , 1 , STRUCT (INFO(T) , 1) ) ;
-                 AFF_STRUCT ( S , 2 , VRAI ) ;
-                 AFF_INFO ( T , S ) ;
-                 AFF_ELEMENT ( TAB_LL [ indice ] , STRUCT (INFO(T) , 1) ) ;
-                 indice := indice + 1 ;
+                 AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
+                 APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
               SINON
                  SI STRUCT( INFO(FD(T)) , 2 ) = VRAI
                     ECRIRE ( INFO ( T ) , ' ' ) ;
-                    AFF_STRUCT ( S , 1 , STRUCT (INFO(T) , 1) ) ;
-                    AFF_STRUCT ( S , 2 , VRAI ) ;
-                    AFF_INFO ( T , S ) ;
-                    AFF_ELEMENT ( TAB_LL [ indice ] , STRUCT (INFO(T) , 1) ) ;
-                    indice := indice + 1 ;
+                    AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
+                    APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
                  SINON
-                    APPEL LL_LR ( FD(T) , TAB_LL , indice ) ;
+                    APPEL LL_LR ( FD(T) , HeadList ) ;
                  FSI ;
               FSI ;
            SINON
               SI STRUCT( INFO(FG(T)) , 2 ) = VRAI
                  SI FD(T) = NIL
                     ECRIRE ( INFO ( T ) , ' ' ) ;
-                    AFF_STRUCT ( S , 1 , STRUCT (INFO(T) , 1) ) ;
-                    AFF_STRUCT ( S , 2 , VRAI ) ;
-                    AFF_INFO ( T , S ) ;
-                    AFF_ELEMENT ( TAB_LL [ indice ] , STRUCT (INFO(T) , 1) ) ;
-                    indice := indice + 1 ;
+                    AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
+                    APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
                  SINON
                     SI STRUCT( INFO(FD(T)) , 2 ) = VRAI
                        ECRIRE ( INFO ( T ) , ' ' ) ;
-                       AFF_STRUCT ( S , 1 , STRUCT (INFO(T) , 1) ) ;
-                       AFF_STRUCT ( S , 2 , VRAI ) ;
-                       AFF_INFO ( T , S ) ;
-                       AFF_ELEMENT ( TAB_LL [ indice ] , STRUCT (INFO(T) , 1) ) ;
-                       indice := indice + 1 ;
+                       AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
+                       APPEL AddToList ( HeadList , STRUCT(INFO(T),1) ) ;
                     SINON
-                       APPEL LL_LR ( FD(T) , TAB_LL , indice ) ;
+                       APPEL LL_LR ( FD(T) , HeadList ) ;
                     FSI ;
                  FSI ;
               SINON
-                 APPEL LL_LR ( FG(T) , TAB_LL , indice ) ;
+                 APPEL LL_LR ( FG(T) , HeadList ) ;
                  SI FD(T) <> NIL
                     SI STRUCT ( INFO(FD(T)) , 2 ) = FAUX
-                       APPEL LL_LR ( FD(T) , TAB_LL , indice ) ;
+                       APPEL LL_LR ( FD(T) , HeadList ) ;
                     FSI ;
                  FSI ;
               FSI ;
@@ -704,35 +678,32 @@
    FIN
 
 { Reapeat the action LL_LR 'till it reaches the height of the tree so it treats all the nodes }
-   ACTION Traversal_2 ( T , TAB_LL )
+   ACTION Traversal_2 ( T , HeadList )
    SOIENT
          T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
-         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
-         TAB_LL UN VECTEUR ( 100 ) DE ENTIER ;
-         i , hauteur , indice DES ENTIER ;
+         HeadList UN POINTEUR VERS UNE LISTE DE ENTIER ;
+         i , hauteur DES ENTIER ;
 
    DEBUT
-        indice := 1 ;
         hauteur := HEIGHT ( T ) ;
         POUR i:=1 , hauteur
-             APPEL LL_LR  ( T , TAB_LL , indice ) ;
+             APPEL LL_LR  ( T , HeadList ) ;
         FINPOUR ;
    FIN
 
 { Checks if the traversal 2 (LL_LR) is correct by deleting the visited leaves and comparing them with TAB_LL }
-   FONCTION Check_Traversal_2 ( T , TAB_LL ) : BOOLEEN
+   FONCTION CheckTraversal_2 ( T , HeadList ) : BOOLEEN
    SOIENT
          T , R , R2 , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
-         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
-         TAB_LL UN VECTEUR ( 10 ) DE ENTIER ;
-         i UN ENTIER ;
+         HeadList , q UN POINTEUR VERS UNE LISTE DE ENTIER ;
          Check UN BOOLEEN ;
 
    DEBUT
+        q := HeadList ;
         R := NIL ;
         Check := VRAI ;
-        i := 1 ;
-        TQ ( T <> NIL ) ET ( Check = VRAI )
+
+        TQ ( T <> NIL ) ET ( q <> NIL ) ET ( Check = VRAI )
            SI R = NIL
               R := Mostleft ( T ) ;
            FSI ;
@@ -740,7 +711,7 @@
            APPEL Nextright ( R , R2 ) ;
            P := PERE ( R ) ;
 
-           SI STRUCT(INFO(R),1) = ELEMENT(TAB_LL[i])
+           SI STRUCT(INFO(R),1) = VALEUR(q)
               SI p <> NIL
                  SI R = FG ( P )
                     AFF_FG ( P , NIL ) ;
@@ -756,22 +727,20 @@
 
            FSI ;
 
-           i := i + 1 ;
+           q := SUIVANT ( q ) ;
            R := R2 ;
         FTQ ;
 
-        Check_Traversal_2 := Check ;
+        CheckTraversal_2 := Check ;
    FIN
 
        { ============= TRAVERSAL 4 : LL_RL ============= }
 
 { Gives the leaves of the tree from right to left (Their children are NIL or visited) }
-   ACTION LL_RL ( T , TAB_LL , indice )
+   ACTION LL_RL ( T , HeadList )
    SOIENT
          T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
-         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
-         TAB_LL UN VECTEUR ( 100 ) DE ENTIER ;
-         indice UN ENTIER ;
+         HeadList UN POINTEUR VERS UNE LISTE DE ENTIER ;
 
    DEBUT
 
@@ -779,49 +748,37 @@
            SI FD(T) = NIL
               SI FG(T) = NIL
                  ECRIRE ( INFO ( T ) , ' ' ) ;
-                 AFF_STRUCT ( S , 1 , STRUCT (INFO(T) , 1) ) ;
-                 AFF_STRUCT ( S , 2 , VRAI ) ;
-                 AFF_INFO ( T , S ) ;
-                 AFF_ELEMENT ( TAB_LL [ indice ] , STRUCT (INFO(T) , 1) ) ;
-                 indice := indice + 1 ;
+                 AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
+                 APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
               SINON
                  SI STRUCT ( INFO(FG(T)) , 2 ) = VRAI
                     ECRIRE ( INFO ( T ) , ' ' ) ;
-                    AFF_STRUCT ( S , 1 , STRUCT (INFO(T) , 1) ) ;
-                    AFF_STRUCT ( S , 2 , VRAI ) ;
-                    AFF_INFO ( T , S ) ;
-                    AFF_ELEMENT ( TAB_LL [ indice ] , STRUCT (INFO(T) , 1) ) ;
-                    indice := indice + 1 ;
+                    AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
+                    APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
                  SINON
-                    APPEL LL_RL ( FG(T) , TAB_LL , indice ) ;
+                    APPEL LL_RL ( FG(T) , HeadList ) ;
                  FSI ;
               FSI ;
            SINON
               SI STRUCT ( INFO(FD(T)) , 2 ) = VRAI
                  SI FG(T) = NIL
                     ECRIRE ( INFO ( T ) , ' ' ) ;
-                    AFF_STRUCT ( S , 1 , STRUCT (INFO(T) , 1) ) ;
-                    AFF_STRUCT ( S , 2 , VRAI ) ;
-                    AFF_INFO ( T , S ) ;
-                    AFF_ELEMENT ( TAB_LL [ indice ] , STRUCT (INFO(T) , 1) ) ;
-                    indice := indice + 1 ;
+                    AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
+                    APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
                  SINON
                     SI STRUCT ( INFO(FG(T)) , 2 ) = VRAI
                        ECRIRE ( INFO ( T ) , ' ' ) ;
-                       AFF_STRUCT ( S , 1 , STRUCT (INFO(T) , 1) ) ;
-                       AFF_STRUCT ( S , 2 , VRAI ) ;
-                       AFF_INFO ( T , S ) ;
-                       AFF_ELEMENT ( TAB_LL [ indice ] , STRUCT (INFO(T) , 1) ) ;
-                       indice := indice + 1 ;
+                       AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
+                       APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
                     SINON
-                       APPEL LL_RL ( FG(T) , TAB_LL , indice ) ;
+                       APPEL LL_RL ( FG(T) , HeadList ) ;
                     FSI ;
                  FSI ;
               SINON
-                 APPEL LL_RL ( FD(T) , TAB_LL , indice ) ;
+                 APPEL LL_RL ( FD(T) , HeadList ) ;
                  SI FG(T) <> NIL
                     SI STRUCT ( INFO(FG(T)) , 2 ) = FAUX
-                       APPEL LL_RL ( FG(T) , TAB_LL , indice ) ;
+                       APPEL LL_RL ( FG(T) , HeadList ) ;
                     FSI ;
                  FSI ;
               FSI ;
@@ -830,35 +787,32 @@
    FIN
 
 { Reapeat the action LL_RL 'till it reaches the height of the tree so it treats all the nodes }
-   ACTION Traversal_4 ( T , TAB_LL )
+   ACTION Traversal_4 ( T , HeadList )
    SOIENT
          T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
-         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
-         TAB_LL UN VECTEUR ( 100 ) DE ENTIER ;
-         i , hauteur , indice UN ENTIER ;
+         HeadList UN POINTEUR VERS UNE LISTE DE ENTIER ;
+         i , hauteur UN ENTIER ;
 
    DEBUT
-        indice := 1 ;
         hauteur := HEIGHT ( T ) ;
         POUR i:=1 , hauteur
-             APPEL LL_RL  ( T , TAB_LL , indice ) ;
+             APPEL LL_RL  ( T , HeadList ) ;
         FINPOUR ;
    FIN
 
 { Checks if the traversal 4 (LL_RL) is correct by deleting the visited leaves and comparing them with TAB_LL }
-   FONCTION Check_Traversal_4 ( T , TAB_LL ) : BOOLEEN
+   FONCTION CheckTraversal_4 ( T , HeadList ) : BOOLEEN
    SOIENT
          T , R , R2 , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
-         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
-         TAB_LL UN VECTEUR ( 100 ) DE ENTIER ;
-         i UN ENTIER ;
+         HeadList , q UN POINTEUR VERS UNE LISTE DE ENTIER ;
          Check UN BOOLEEN ;
 
    DEBUT
+        q := HeadList ;
         R := NIL ;
         Check := VRAI ;
-        i := 1 ;
-        TQ ( T <> NIL ) ET ( Check = VRAI )
+
+        TQ ( T <> NIL ) ET ( q <> NIL ) ET ( Check = VRAI )
            SI R = NIL
               R := Mostright ( T ) ;
            FSI ;
@@ -866,7 +820,7 @@
            APPEL Nextleft ( R , R2 ) ;
            P := PERE ( R ) ;
 
-           SI STRUCT(INFO(R),1) = ELEMENT(TAB_LL[i])
+           SI STRUCT(INFO(R),1) = VALEUR(q)
               SI p <> NIL
                  SI R = FG ( P )
                     AFF_FG ( P , NIL ) ;
@@ -882,9 +836,9 @@
 
            FSI ;
 
-           i := i + 1 ;
+           q := SUIVANT ( q ) ;
            R := R2 ;
         FTQ ;
 
-        Check_Traversal_4 := Check ;
-   FIN
+        CheckTraversal_4 := Check ;
+   FIN 
