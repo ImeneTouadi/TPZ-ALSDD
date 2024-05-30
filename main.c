@@ -12,6 +12,7 @@
   #include <stdio.h>
   #include <stdlib.h>
   #include <Time.h>
+  #include "DisplayTree.h"
 
   typedef int bool ;
 
