@@ -23,7 +23,7 @@
        Create_tree UNE ACTION ;
        CloneTree : FONCTION (POINTEUR VERS UN ARB DE (ENTIER, BOOLEEN));
        ArbreExemple UNE ACTION ;
-       Display UNE ACTION ;      {inorder/for check}
+       Display UNE ACTION ;      {inorder/just for check}
        GenerateTree UNE ACTION ;
           { Lists }
        Displaylist UNE ACTION ;
@@ -59,6 +59,13 @@
 {====================== PROGRAMME PRINCIPALE ======================}
    DEBUT
 
+       ECRIRE('Welcome to  ALGO  TP 02  !!');
+       ECRIRE('');
+       ECRIRE('We hope to be able to show you our efforts with this program');
+       ECRIRE('                          Realised by : Seghouani Sirine//Touadi Imene//Section B : G05');
+       ECRIRE('');
+       ECRIRE('');
+       ECRIRE('');
        ECRIRE ( ' Enter the number of iterations (You can take m=10) : ' ) ;
        LIRE ( NumberIterations ) ;
 
@@ -318,6 +325,18 @@ FIN
         AFF_PERE ( R2 , R );
         AFF_FG ( R2 , NIL ) ;
         AFF_FD ( R2 , NIL ) ;
+        APPEL Insert ( T , 50 ) ;
+        APPEL Insert ( T , 58 ) ;
+        APPEL Insert ( T , 56 ) ;
+        APPEL Insert ( T , 57 ) ;
+        APPEL Insert ( T , 60 ) ;
+        APPEL Insert ( T , 62 ) ;
+        APPEL Insert ( T , 85 ) ;
+        APPEL Insert ( T , 75 ) ;
+        APPEL Insert ( T , 95 ) ;
+        APPEL Insert ( T , 90 ) ;
+        APPEL Insert ( T , 98 ) ;
+        APPEL Insert ( T , 88 ) ;
    FIN
 
 { Displays a tree inorder (did it just for check) }
@@ -342,7 +361,7 @@ FIN
    DEBUT
         ECRIRE ( ' ' ) ;
         ECRIRE ( ' Do you want to : ' ) ;
-        ECRIRE ( ' 1. Generate a defined tree ( the tree esemple in the tp ) ' ) ;
+        ECRIRE ( ' 1. Generate a defined tree ( the tree exemple in the tp ) ' ) ;
         ECRIRE ( ' 2. Generate a random tree ' ) ;
         ECRIRE ( ' ' ) ;
 
@@ -986,8 +1005,10 @@ FIN
 
                   SI Check = 1
                        SI CheckTraversal_1 ( T , Head_BBLR )
+                            ECRIRE ( ' ' ) ;
                             ECRIRE ( ' The traversal is correct ' ) ;
                        SINON
+                            ECRIRE ( ' ' ) ;
                             ECRIRE ( ' The traversal is wrong ' ) ;
                        FSI ;
                   FSI ;
@@ -1011,8 +1032,10 @@ FIN
 
                        SI Check = 1
                             SI CheckTraversal_2 ( T , Head_LLLR )
+                                 ECRIRE ( ' ' ) ;
                                  ECRIRE ( ' The traversal is correct ' ) ;
                             SINON
+                                 ECRIRE ( ' ' ) ;
                                  ECRIRE ( ' The traversal is wrong ' ) ;
                             FSI ;
                        FSI ;
@@ -1036,8 +1059,10 @@ FIN
 
                             SI Check = 1
                                  SI CheckTraversal_3 ( T , Head_BBRL )
+                                      ECRIRE ( ' ' ) ;
                                       ECRIRE ( ' The traversal is correct ' ) ;
                                  SINON
+                                      ECRIRE ( ' ' ) ;
                                       ECRIRE ( ' The traversal is wrong ' ) ;
                                  FSI ;
                             FSI ;
@@ -1061,8 +1086,10 @@ FIN
 
                                  SI Check = 1
                                       SI CheckTraversal_4 ( T , Head_LLRL )
+                                           ECRIRE ( ' ' ) ;
                                            ECRIRE ( ' The traversal is correct ' ) ;
                                       SINON
+                                           ECRIRE ( ' ' ) ;
                                            ECRIRE ( ' The traversal is wrong ' ) ;
                                       FSI ;
                                  FSI ;
