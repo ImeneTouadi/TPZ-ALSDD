@@ -1,6 +1,7 @@
 #ifndef DISPLAYTREE_H
 #define DISPLAYTREE_H
- 
+
+typedef int bool ;
 /* ===================== STRUCTURES ====================== */
 
 /** Structures statiques **/
