@@ -59,13 +59,13 @@
 {====================== PROGRAMME PRINCIPALE ======================}
    DEBUT
 
-       ECRIRE('Welcome to  ALGO  TP 02  !!');
-       ECRIRE('');
-       ECRIRE('We hope to be able to show you our efforts with this program');
-       ECRIRE('                          Realised by : Seghouani Sirine//Touadi Imene//Section B : G05');
-       ECRIRE('');
-       ECRIRE('');
-       ECRIRE('');
+       ECRIRE ( ' Welcome to  ALGO  TP 02  !! ' ) ;
+       ECRIRE ( ' ' ) ;
+       ECRIRE ( ' We hope to be able to show you our efforts with this program') ;
+       ECRIRE ( '                          Realised by : Seghouani Sirine//Touadi Imene//Section B : G05 ' ) ;
+       ECRIRE ( ' ' ) ;
+       ECRIRE ( ' ' ) ;
+       ECRIRE ( ' ' ) ;
        ECRIRE ( ' Enter the number of iterations (You can take m=10) : ' ) ;
        LIRE ( NumberIterations ) ;
 
@@ -240,91 +240,50 @@
 
    FIN
 
-FONCTION CloneTree(Original): POINTEUR VERS UN ARB DE (ENTIER, BOOLEEN);
-SOIENT
-    Original, clone DES POINTEURS VERS UN ARB DE (ENTIER, BOOLEEN);
-DEBUT
-    SI original = NIL
-        clone := NIL
-    FSI;
+   FONCTION CloneTree ( Original ) : POINTEUR VERS UN ARB DE (ENTIER, BOOLEEN)
+   SOIENT
+        Original, clone DES POINTEURS VERS UN ARB DE (ENTIER, BOOLEEN) ;
 
-    CREERNOEUD ( Clone ) ;
-    AFF_INFO ( Clone , INFO(Original) ) ;
+   DEBUT
+      SI original = NIL
+          clone := NIL
+      FSI;
 
-    SI FG(Original) <> NIL
-    AFF_FG(clone, CloneTree(FG(original)));
-    FSI;
+      CREERNOEUD ( Clone ) ;
+      AFF_INFO ( Clone , INFO(Original) ) ;
 
-    SI FD(Original) <> NIL
-    AFF_FD(clone, CloneTree(FD(original)));
-    FSI;
+      SI FG(Original) <> NIL
+          AFF_FG(clone, CloneTree(FG(original)));
+      FSI;
 
-    SI FG(Clone) <> NIL
-       AFF_PERE(FG(Clone),Clone);
-    FSI;
+      SI FD(Original) <> NIL
+          AFF_FD(clone, CloneTree(FD(original)));
+      FSI;
 
-    SI FD(Clone) <> NIL
-       AFF_PERE(FD(Clone),Clone);
-    FSI;
+      SI FG(Clone) <> NIL
+          AFF_PERE(FG(Clone),Clone);
+      FSI;
 
-    CloneTree := Clone;
+      SI FD(Clone) <> NIL
+          AFF_PERE(FD(Clone),Clone);
+      FSI;
 
-FIN
+      CloneTree := Clone;
+
+   FIN
 
 { Just an exemple of a tree to test the functions }
    ACTION ArbreExemple ( T )
    SOIENT
-         T , R , R2 DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
-         S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
+         T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
 
    DEBUT
-        CREERNOEUD ( T ) ;
-        AFF_STRUCT ( S , 1 , 45 ) ;
-        AFF_STRUCT ( S , 2 , FAUX ) ;
-        AFF_INFO ( T , S ) ;
-        AFF_PERE (T , NIL );
-
-        CREERNOEUD ( R ) ;
-        AFF_STRUCT ( S , 1 , 20 ) ;
-        AFF_STRUCT ( S, 2 , FAUX ) ;
-        AFF_INFO ( R , S ) ;
-        AFF_FG ( T , R ) ;
-        AFF_PERE ( R , T );
-
-        CREERNOEUD ( R2 ) ;
-        AFF_STRUCT ( S , 1 , 10 ) ;
-        AFF_STRUCT ( S, 2 , FAUX ) ;
-        AFF_INFO ( R2 , S ) ;
-        AFF_FG ( R , R2 ) ;
-        AFF_PERE ( R2 , R );
-        AFF_FG ( R2 , NIL ) ;
-        AFF_FD ( R2 , NIL ) ;
-
-        CREERNOEUD ( R2 ) ;
-        AFF_STRUCT ( S , 1 , 35 ) ;
-        AFF_STRUCT ( S, 2 , FAUX ) ;
-        AFF_INFO ( R2 , S ) ;
-        AFF_FD ( R , R2 ) ;
-        AFF_PERE ( R2 , R );
-        AFF_FG ( R2 , NIL ) ;
-        AFF_FD ( R2 , NIL ) ;
-
-        CREERNOEUD ( R ) ;
-        AFF_STRUCT ( S , 1 , 65 ) ;
-        AFF_STRUCT ( S, 2 , FAUX ) ;
-        AFF_INFO ( R , S ) ;
-        AFF_FD ( T , R ) ;
-        AFF_PERE ( R , T );
-        AFF_FG ( R , NIL ) ;
-
-        CREERNOEUD ( R2 ) ;
-        AFF_STRUCT ( S , 1 , 55 ) ;
-        AFF_STRUCT ( S, 2 , FAUX ) ;
-        AFF_INFO ( R2 , S ) ;
-        AFF_FG ( R , R2 ) ;
-        AFF_PERE ( R2 , R );
-        AFF_FG ( R2 , NIL ) ;
-        AFF_FD ( R2 , NIL ) ;
+        APPEL Insert ( T , 45 ) ;
+        APPEL Insert ( T , 20 ) ;
+        APPEL Insert ( T , 10 ) ;
+        APPEL Insert ( T , 35 ) ;
+        APPEL Insert ( T , 65 ) ;
+        APPEL Insert ( T , 55 ) ;
         APPEL Insert ( T , 50 ) ;
         APPEL Insert ( T , 58 ) ;
         APPEL Insert ( T , 56 ) ;
