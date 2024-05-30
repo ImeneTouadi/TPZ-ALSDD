@@ -732,18 +732,19 @@ FIN
 { Checks if the traversal 2 (LL_LR) is correct by deleting the visited leaves and comparing them with List_LL }
    FONCTION CheckTraversal_2 ( T , HeadList ) : BOOLEEN
    SOIENT
-         T , R , R2 , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         T , CloneT , R , R2 , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
          HeadList , q UN POINTEUR VERS UNE LISTE DE ENTIER ;
          Check UN BOOLEEN ;
 
    DEBUT
+        CloneT := CloneTree ( T ) ;
         q := HeadList ;
         R := NIL ;
         Check := VRAI ;
 
-        TQ ( T <> NIL ) ET ( q <> NIL ) ET ( Check = VRAI )
+        TQ ( CloneT <> NIL ) ET ( q <> NIL ) ET ( Check = VRAI )
            SI R = NIL
-              R := Mostleft ( T ) ;
+              R := Mostleft ( CloneT ) ;
            FSI ;
 
            APPEL Nextright ( R , R2 ) ;
@@ -757,7 +758,7 @@ FIN
                     AFF_FD ( P , NIL ) ;
                  FSI ;
               SINON
-                 T := NIL ;
+                 CloneT := NIL ;
               FSI ;
 
            SINON
@@ -842,18 +843,19 @@ FIN
 { Checks if the traversal 4 (LL_RL) is correct by deleting the visited leaves and comparing them with List_LL }
    FONCTION CheckTraversal_4 ( T , HeadList ) : BOOLEEN
    SOIENT
-         T , R , R2 , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         T , CloneT , R , R2 , P DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
          HeadList , q UN POINTEUR VERS UNE LISTE DE ENTIER ;
          Check UN BOOLEEN ;
 
    DEBUT
+        CloneT := CloneTree ( T ) ;
         q := HeadList ;
         R := NIL ;
         Check := VRAI ;
 
-        TQ ( T <> NIL ) ET ( q <> NIL ) ET ( Check = VRAI )
+        TQ ( CloneT <> NIL ) ET ( q <> NIL ) ET ( Check = VRAI )
            SI R = NIL
-              R := Mostright ( T ) ;
+              R := Mostright ( CloneT ) ;
            FSI ;
 
            APPEL Nextleft ( R , R2 ) ;
@@ -867,7 +869,7 @@ FIN
                     AFF_FD ( P , NIL ) ;
                  FSI ;
               SINON
-                 T := NIL ;
+                 CloneT := NIL ;
               FSI ;
 
            SINON
@@ -888,19 +890,21 @@ FIN
    SOIENT
          T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
          TreeTraversals UN BOOLEEN ;
-         Traversal UN ENTIER ;
+         Traversal , Check UN ENTIER ;
          Head_BBLR , Head_BBRL DES POINTEURS VERS UNE LISTE DE ENTIER ;
          Head_LLLR , Head_LLRL DES POINTEURS VERS UNE LISTE DE ENTIER ;
 
    DEBUT
         TreeTraversals := VRAI ;
         TANTQUE TreeTraversals = VRAI
+             ECRIRE ( ' ' ) ;
              ECRIRE ( ' ====== TRAVERSALS ====== ' ) ;
-             ECRIRE ( '    1. BB_LR ' ) ;
-             ECRIRE ( '    2. LL_LR ' ) ;
-             ECRIRE ( '    3. BB_RL ' ) ;
-             ECRIRE ( '    4. LL_RL ' ) ;
-             ECRIRE ( '    5. RETURN ' ) ;
+             ECRIRE ( '        1. BB_LR ' ) ;
+             ECRIRE ( '        2. LL_LR ' ) ;
+             ECRIRE ( '        3. BB_RL ' ) ;
+             ECRIRE ( '        4. LL_RL ' ) ;
+             ECRIRE ( '        5. RETURN ' ) ;
+             ECRIRE ( ' ' ) ;
 
              Traversal := 0 ;
 
@@ -911,25 +915,101 @@ FIN
              SI Traversal = 1
                   Head_BBLR := NIL ;
                   APPEL traversal_1 ( Tree , Head_BBLR) ;
-                  APPEL Displaylist( Head_BBLR ) ;
+                  APPEL Displaylist ( Head_BBLR ) ;
+
+                  ECRIRE ( ' ' ) ;
+                  ECRIRE ( ' Check Traversal 1 ? ' ) ;
+                  ECRIRE ( ' 1. YES ' ) ;
+                  ECRIRE ( ' 2. NO ' ) ;
+
+                  Check := 0 ;
+
+                  TANTQUE ( Check > 2 ) OU ( Check < 1 )
+                       LIRE ( Check ) ;
+                  FTQ ;
+
+                  SI Check = 1
+                       SI CheckTraversal_1 ( T , Head_BBLR )
+                            ECRIRE ( ' The traversal is correct ' ) ;
+                       SINON
+                            ECRIRE ( ' The traversal is wrong ' ) ;
+                       FSI ;
+                  FSI ;
 
              SINON
                   SI Traversal = 2
                        Head_LLLR := NIL ;
                        APPEL traversal_2 ( Tree , Head_LLLR) ;
-                       APPEL Displaylist( Head_LLLR ) ;
+                       APPEL Displaylist ( Head_LLLR ) ;
+
+                       ECRIRE ( ' ' ) ;
+                       ECRIRE ( ' Check Traversal 2 ? ' ) ;
+                       ECRIRE ( ' 1. YES ' ) ;
+                       ECRIRE ( ' 2. NO ' ) ;
+
+                       Check := 0 ;
+
+                       TANTQUE ( Check > 2 ) OU ( Check < 1 )
+                            LIRE ( Check ) ;
+                       FTQ ;
+
+                       SI Check = 1
+                            SI CheckTraversal_2 ( T , Head_LLLR )
+                                 ECRIRE ( ' The traversal is correct ' ) ;
+                            SINON
+                                 ECRIRE ( ' The traversal is wrong ' ) ;
+                            FSI ;
+                       FSI ;
 
                   SINON
                        SI Traversal = 3
                             Head_BBRL := NIL ;
                             APPEL traversal_3 ( Tree , Head_BBRL) ;
-                            APPEL Displaylist( Head_BBRL ) ;
+                            APPEL Displaylist ( Head_BBRL ) ;
+
+                            ECRIRE ( ' ' ) ;
+                            ECRIRE ( ' Check Traversal 3 ? ' ) ;
+                            ECRIRE ( ' 1. YES ' ) ;
+                            ECRIRE ( ' 2. NO ' ) ;
+
+                            Check := 0 ;
+
+                            TANTQUE ( Check > 2 ) OU ( Check < 1 )
+                                 LIRE ( Check ) ;
+                            FTQ ;
+
+                            SI Check = 1
+                                 SI CheckTraversal_3 ( T , Head_BBRL )
+                                      ECRIRE ( ' The traversal is correct ' ) ;
+                                 SINON
+                                      ECRIRE ( ' The traversal is wrong ' ) ;
+                                 FSI ;
+                            FSI ;
 
                        SINON
                             SI Traversal = 4
                                  Head_LLRL := NIL ;
                                  APPEL traversal_4 ( Tree , Head_LLRL) ;
-                                 APPEL Displaylist( Head_LLRL ) ;
+                                 APPEL Displaylist ( Head_LLRL ) ;
+
+                                 ECRIRE ( ' ' ) ;
+                                 ECRIRE ( ' Check Traversal 4 ? ' ) ;
+                                 ECRIRE ( ' 1. YES ' ) ;
+                                 ECRIRE ( ' 2. NO ' ) ;
+
+                                 Check := 0 ;
+
+                                 TANTQUE ( Check > 2 ) OU ( Check < 1 )
+                                      LIRE ( Check ) ;
+                                 FTQ ;
+
+                                 SI Check = 1
+                                      SI CheckTraversal_4 ( T , Head_LLRL )
+                                           ECRIRE ( ' The traversal is correct ' ) ;
+                                      SINON
+                                           ECRIRE ( ' The traversal is wrong ' ) ;
+                                      FSI ;
+                                 FSI ;
 
                             SINON
                                  TreeTraversals := FAUX ;
