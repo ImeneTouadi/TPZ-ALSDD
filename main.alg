@@ -49,6 +49,8 @@
        Traversal_4 UNE ACTION ;
        CheckTraversal_4 : FONCTION ( BOOLEEN ) ;
 
+      TRAVERSALS UNE ACTION ;
+
 {====================== PROGRAMME PRINCIPALE ======================}
    DEBUT
        {APPEL Create_tree ( Tree ) ;}
@@ -879,3 +881,61 @@ FIN
 
         CheckTraversal_4 := Check ;
    FIN 
+
+       { ================ TRAVERSALS ================ }
+   
+   ACTION TRAVERSALS ( T )
+   SOIENT
+         T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         TreeTraversals UN BOOLEEN ;
+         Traversal UN ENTIER ;
+         Head_BBLR , Head_BBRL DES POINTEURS VERS UNE LISTE DE ENTIER ;
+         Head_LLLR , Head_LLRL DES POINTEURS VERS UNE LISTE DE ENTIER ;
+
+   DEBUT
+        TreeTraversals := VRAI ;
+        TANTQUE TreeTraversals = VRAI
+             ECRIRE ( ' ====== TRAVERSALS ====== ' ) ;
+             ECRIRE ( '    1. BB_LR ' ) ;
+             ECRIRE ( '    2. LL_LR ' ) ;
+             ECRIRE ( '    3. BB_RL ' ) ;
+             ECRIRE ( '    4. LL_RL ' ) ;
+             ECRIRE ( '    5. RETURN ' ) ;
+
+             Traversal := 0 ;
+
+             TANTQUE ( Traversal > 5 ) OU ( Traversal < 1 )
+                  LIRE ( Traversal ) ;
+             FTQ ;
+
+             SI Traversal = 1
+                  Head_BBLR := NIL ;
+                  APPEL traversal_1 ( Tree , Head_BBLR) ;
+                  APPEL Displaylist( Head_BBLR ) ;
+
+             SINON
+                  SI Traversal = 2
+                       Head_LLLR := NIL ;
+                       APPEL traversal_2 ( Tree , Head_LLLR) ;
+                       APPEL Displaylist( Head_LLLR ) ;
+
+                  SINON
+                       SI Traversal = 3
+                            Head_BBRL := NIL ;
+                            APPEL traversal_3 ( Tree , Head_BBRL) ;
+                            APPEL Displaylist( Head_BBRL ) ;
+
+                       SINON
+                            SI Traversal = 4
+                                 Head_LLRL := NIL ;
+                                 APPEL traversal_4 ( Tree , Head_LLRL) ;
+                                 APPEL Displaylist( Head_LLRL ) ;
+
+                            SINON
+                                 TreeTraversals := FAUX ;
+                            FSI ;
+                       FSI ;
+                  FSI ;
+             FSI ;
+        FTQ ;
+   FIN
