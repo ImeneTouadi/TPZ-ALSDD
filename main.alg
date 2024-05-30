@@ -427,13 +427,14 @@ FIN
       {Traverses the tree by BB-LR and returns the values in a list}
    ACTION Traversal_1 ( T , Head )
    SOIENT
-       T UN POINTEUR VERS UN ARB DE ( ENTIERS , BOOLEEN ) ;
+       T , CloneT DES POINTEURS VERS UN ARB DE ( ENTIERS , BOOLEEN ) ;
        Head UN POINTEURS VERS UNE LISTE DE ENTIER ;
        P , F , Q , S DES POINTEURS VERS UN ARB DE (ENTIERS,BOOLEEN) ;
        Up UN BOOLEEN ;
 
    DEBUT
-       P := Mostleft(T) ;  {We start from the most LC}
+       CloneT := CloneTree ( T ) ;
+       P := Mostleft ( CloneT ) ;  {We start from the most LC}
        F := P ;
        TQ F <> NIL
            S := F ;      {S is to save the current leaf so that we can move to exactly the next leaf}
@@ -573,13 +574,14 @@ FIN
       {Traverses the tree BB-RL and returns the values in a list}
    ACTION Traversal_3 ( T , Head )
    SOIENT
-       T UN POINTEUR VERS UN ARB DE ( ENTIERS , BOOLEEN ) ;
+       T , CloneT DES POINTEURS VERS UN ARB DE ( ENTIERS , BOOLEEN ) ;
        Head UN POINTEURS VERS UNE LISTE DE ENTIER ;
        P , F , Q , S DES POINTEURS VERS UN ARB DE (ENTIERS,BOOLEEN) ;
        Up UN BOOLEEN ;
 
    DEBUT
-       P := Mostright(T) ;        {We start from the most RC}
+       CloneT := CloneTree ( T ) ;
+       P := Mostright ( CloneT ) ;        {We start from the most RC}
        F := P ;
        TQ F <> NIL
            S := F ;  {S is to save the current leaf so that we can move to exactly the next leaf}
@@ -713,14 +715,15 @@ FIN
 { Reapeat the action LL_LR 'till it reaches the height of the tree so it treats all the nodes }
    ACTION Traversal_2 ( T , HeadList )
    SOIENT
-         T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         T , CloneT DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
          HeadList UN POINTEUR VERS UNE LISTE DE ENTIER ;
          i , hauteur DES ENTIER ;
 
    DEBUT
         hauteur := HEIGHT ( T ) ;
+        CloneT := CloneTree ( T ) ;
         POUR i:=1 , hauteur
-             APPEL LL_LR  ( T , HeadList ) ;
+             APPEL LL_LR  ( CloneT , HeadList ) ;
         FINPOUR ;
    FIN
 
@@ -822,14 +825,15 @@ FIN
 { Reapeat the action LL_RL 'till it reaches the height of the tree so it treats all the nodes }
    ACTION Traversal_4 ( T , HeadList )
    SOIENT
-         T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         T , CloneT DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
          HeadList UN POINTEUR VERS UNE LISTE DE ENTIER ;
          i , hauteur UN ENTIER ;
 
    DEBUT
         hauteur := HEIGHT ( T ) ;
+        CloneT := CloneTree ( T ) ;
         POUR i:=1 , hauteur
-             APPEL LL_RL  ( T , HeadList ) ;
+             APPEL LL_RL  ( CloneT , HeadList ) ;
         FINPOUR ;
    FIN
 
