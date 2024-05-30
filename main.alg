@@ -1,13 +1,17 @@
 
+
    SOIENT
 {=========================== VARIABLES =================================}
 
-       Tree : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+       Tree , CTree : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
        Head_BBLR , Head_BBRL DES POINTEURS VERS UNE LISTE DE ENTIER ;
-       Head_LLLR , Head_LLRL DES POINTEURS VERS UNE LISTE DE ENTIER ;  
+       Head_LLLR , Head_LLRL DES POINTEURS VERS UNE LISTE DE ENTIER ;
        S UNE STRUCTURE ( ENTIER , BOOLEEN ) ;
        Val UN ENTIER ;
        B UN BOOLEEN ;
+       NumberIterations , m  UN ENTIER ;
+       Choice UN ENTIER ;
+       IterationTerminee UN BOOLEEN ;
 
 {=========================== MODULES =================================}
 
@@ -20,6 +24,7 @@
        CloneTree : FONCTION (POINTEUR VERS UN ARB DE (ENTIER, BOOLEEN));
        ArbreExemple UNE ACTION ;
        Display UNE ACTION ;      {inorder/for check}
+       GenerateTree UNE ACTION ;
           { Lists }
        Displaylist UNE ACTION ;
        AddToList UNE ACTION ;
@@ -49,33 +54,53 @@
        Traversal_4 UNE ACTION ;
        CheckTraversal_4 : FONCTION ( BOOLEEN ) ;
 
-      TRAVERSALS UNE ACTION ;
+       TRAVERSALS UNE ACTION ;
 
 {====================== PROGRAMME PRINCIPALE ======================}
    DEBUT
-       {APPEL Create_tree ( Tree ) ;}
-       APPEL ArbreExemple ( Tree );
-       APPEL Display ( Tree ) ;
-       B := Isbst ( Tree , -1000 , 1000 ) ;
-      { Min and Max values are put -1000 to 1000 because of the interval of generating the random numbers }
-       SI B = VRAI
-           ECRIRE ( 'Tree is a BST.' ) ;
 
-       SINON
-           ECRIRE ( 'Tree is NOT a BST.' ) ;
+       ECRIRE ( ' Enter the number of iterations (You can take m=10) : ' ) ;
+       LIRE ( NumberIterations ) ;
 
-       FSI ;
+       POUR m:=1 , NumberIterations
+            IterationTerminee := FAUX ;
+            TANTQUE IterationTerminee = FAUX
+                 ECRIRE ( ' ' ) ;
+                 ECRIRE ( ' ========== MENU ========== ' ) ;
+                 ECRIRE ( ' 1. Generate a binary search tree ' ) ;
+                 ECRIRE ( ' 2. Verify that the tree is correctly constructed ' ) ;
+                 ECRIRE ( ' 3. Apply the traversals ' ) ;
+                 ECRIRE ( ' ' ) ;
 
-       ECRIRE ( ' LEAVES BB_RL ' ) ;
-       APPEL traversal_3( Tree , Head_BBRL );
-       ECRIRE ( ' LIST ' ) ;
-       APPEL Displaylist( Head_BBRL );
+                 Choice := 0 ;
 
-       SI CheckTraversal_3( Tree, Head_BBRL)
-          ecrire('Your traversal is correct');
-       SINON
-          ecrire('Your traversal is wrong');
-       FSI
+                 TANTQUE ( Choice > 3 ) OU ( Choice < 1 )
+                      LIRE ( Choice ) ;
+                 FTQ ;
+
+                 SI Choice = 1
+                      APPEL GenerateTree ( Tree ) ;
+
+                 SINON
+                      SI Choice = 2
+                           B := Isbst ( Tree , -1000 , 1000 ) ;
+                           { Min and Max values are put -1000 to 1000 }
+                           { because of the interval of generating the random numbers }
+                           SI B = VRAI
+                                ECRIRE ( ' Tree is a BST. ' ) ;
+                           SINON
+                                ECRIRE ( ' Tree is NOT a BST. ' ) ;
+                           FSI ;
+
+                      SINON
+                           SI Choice = 3
+                                APPEL TRAVERSALS ( Tree ) ;
+                                IterationTerminee := VRAI ;
+                           FSI ;
+                      FSI ;
+                 FSI ;
+            FTQ ;
+       FINPOUR ;
 
    FIN
 
@@ -185,15 +210,15 @@
    FIN
 
 { Generates a tree with 100 random data initialized at false }
-{ All 100 value are checked to be unique }
-   ACTION Create_tree ( T )
+{ All n values are checked to be unique }
+   ACTION Create_tree ( T , n )
    SOIENT
        T : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
-       I , Value UN ENTIER ;
+       n , I , Value UN ENTIER ;
        Check UN BOOLEEN ;
 
    DEBUT
-       POUR I := 1 , 100
+       POUR I := 1 , n
            Value := ALEANOMBRE ( 1000 ) ;
            Check := Isuniquevalue ( T , Value ) ;
            TANTQUE Check = FAUX
@@ -237,21 +262,7 @@ DEBUT
 
     CloneTree := Clone;
 
-FIN  
-
-{ Displays a tree inorder (did it just for check) }
-   ACTION Display ( T )
-   SOIENT
-       T : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
-
-   DEBUT
-       SI T <> NIL
-           APPEL Display ( FG ( T ) ) ;
-           ECRIRE ( INFO ( T ) , '  ' ) ;
-           APPEL Display ( FD ( T ) ) ;
-       FSI ;
-
-   FIN
+FIN
 
 { Just an exemple of a tree to test the functions }
    ACTION ArbreExemple ( T )
@@ -309,6 +320,53 @@ FIN
         AFF_FD ( R2 , NIL ) ;
    FIN
 
+{ Displays a tree inorder (did it just for check) }
+   ACTION Display ( T )
+   SOIENT
+       T : POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+
+   DEBUT
+       SI T <> NIL
+           APPEL Display ( FG ( T ) ) ;
+           ECRIRE ( INFO ( T ) , '  ' ) ;
+           APPEL Display ( FD ( T ) ) ;
+       FSI ;
+
+   FIN
+
+   ACTION GenerateTree ( Tree )
+   SOIENT
+         Tree UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         ChoiceCreateTree , n UN ENTIER ;
+
+   DEBUT
+        ECRIRE ( ' ' ) ;
+        ECRIRE ( ' Do you want to : ' ) ;
+        ECRIRE ( ' 1. Generate a defined tree ( the tree esemple in the tp ) ' ) ;
+        ECRIRE ( ' 2. Generate a random tree ' ) ;
+        ECRIRE ( ' ' ) ;
+
+        ChoiceCreateTree := 0 ;
+
+        TANTQUE ( ChoiceCreateTree > 2 ) OU ( ChoiceCreateTree < 1 )
+             LIRE ( ChoiceCreateTree ) ;
+        FTQ ;
+
+        Tree := NIL ;
+
+        SI ChoiceCreateTree = 1
+             APPEL ArbreExemple ( Tree ) ;
+             APPEL Display ( Tree ) ;
+        SINON
+             ECRIRE ( ' ' ) ;
+             ECRIRE ( ' Enter the number of random data (you can take n=100) ' ) ;
+             ECRIRE ( ' ' ) ;
+             LIRE ( n ) ;
+             APPEL Create_tree ( Tree , n ) ;
+             APPEL Display ( Tree ) ;
+        FSI ;
+   FIN
+
 {Displays the values of a list }
    ACTION DisplayList ( Head )
    SOIENT
@@ -329,7 +387,7 @@ FIN
          val UN ENTIER ;
 
    DEBUT
-        ALLOUER (Cell) ;
+        ALLOUER ( Cell ) ;
         AFF_VAL ( Cell , val ) ;
         AFF_ADR ( Cell , NIL ) ;
         SI Head = NIL
@@ -436,7 +494,7 @@ FIN
 
    DEBUT
        CloneT := CloneTree ( T ) ;
-       P := Mostleft ( CloneT ) ;  {We start from the most LC}
+       P := Mostleft(CloneT) ;  {We start from the most LC}
        F := P ;
        TQ F <> NIL
            S := F ;      {S is to save the current leaf so that we can move to exactly the next leaf}
@@ -583,7 +641,7 @@ FIN
 
    DEBUT
        CloneT := CloneTree ( T ) ;
-       P := Mostright ( CloneT ) ;        {We start from the most RC}
+       P := Mostright(CloneT) ;        {We start from the most RC}
        F := P ;
        TQ F <> NIL
            S := F ;  {S is to save the current leaf so that we can move to exactly the next leaf}
@@ -675,12 +733,12 @@ FIN
         SI T <> NIL
            SI FG(T) = NIL
               SI FD(T) = NIL
-                 ECRIRE ( INFO ( T ) , ' ' ) ;
+                 { ECRIRE ( INFO ( T ) , ' ' ) ; }
                  AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
                  APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
               SINON
                  SI STRUCT( INFO(FD(T)) , 2 ) = VRAI
-                    ECRIRE ( INFO ( T ) , ' ' ) ;
+                    { ECRIRE ( INFO ( T ) , ' ' ) ; }
                     AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
                     APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
                  SINON
@@ -690,12 +748,12 @@ FIN
            SINON
               SI STRUCT( INFO(FG(T)) , 2 ) = VRAI
                  SI FD(T) = NIL
-                    ECRIRE ( INFO ( T ) , ' ' ) ;
+                    { ECRIRE ( INFO ( T ) , ' ' ) ; }
                     AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
                     APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
                  SINON
                     SI STRUCT( INFO(FD(T)) , 2 ) = VRAI
-                       ECRIRE ( INFO ( T ) , ' ' ) ;
+                       { ECRIRE ( INFO ( T ) , ' ' ) ; }
                        AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
                        APPEL AddToList ( HeadList , STRUCT(INFO(T),1) ) ;
                     SINON
@@ -786,12 +844,12 @@ FIN
         SI T <> NIL
            SI FD(T) = NIL
               SI FG(T) = NIL
-                 ECRIRE ( INFO ( T ) , ' ' ) ;
+                 { ECRIRE ( INFO ( T ) , ' ' ) ; }
                  AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
                  APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
               SINON
                  SI STRUCT ( INFO(FG(T)) , 2 ) = VRAI
-                    ECRIRE ( INFO ( T ) , ' ' ) ;
+                    { ECRIRE ( INFO ( T ) , ' ' ) ; }
                     AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
                     APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
                  SINON
@@ -801,12 +859,12 @@ FIN
            SINON
               SI STRUCT ( INFO(FD(T)) , 2 ) = VRAI
                  SI FG(T) = NIL
-                    ECRIRE ( INFO ( T ) , ' ' ) ;
+                    { ECRIRE ( INFO ( T ) , ' ' ) ; }
                     AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
                     APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
                  SINON
                     SI STRUCT ( INFO(FG(T)) , 2 ) = VRAI
-                       ECRIRE ( INFO ( T ) , ' ' ) ;
+                       { ECRIRE ( INFO ( T ) , ' ' ) ; }
                        AFF_STRUCT ( INFO ( T ) , 2 , VRAI ) ;
                        APPEL AddToList ( HeadList , STRUCT(INFO(T) , 1) ) ;
                     SINON
@@ -828,7 +886,7 @@ FIN
 { Reapeat the action LL_RL 'till it reaches the height of the tree so it treats all the nodes }
    ACTION Traversal_4 ( T , HeadList )
    SOIENT
-         T , CloneT DES POINTEURS VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
+         T , CloneT DES POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
          HeadList UN POINTEUR VERS UNE LISTE DE ENTIER ;
          i , hauteur UN ENTIER ;
 
@@ -882,10 +940,8 @@ FIN
         FTQ ;
 
         CheckTraversal_4 := Check ;
-   FIN 
+   FIN
 
-       { ================ TRAVERSALS ================ }
-   
    ACTION TRAVERSALS ( T )
    SOIENT
          T UN POINTEUR VERS UN ARB DE ( ENTIER , BOOLEEN ) ;
