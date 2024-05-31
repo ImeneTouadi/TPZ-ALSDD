@@ -532,8 +532,11 @@
      printf("\t Do you want to : \n");
      printf("\t 1. Display the traversal at once. \n");
      printf("\t 2. Animate it one by one (this may take some time for 100 data) \n\n");
-     printf("\t Enter you choice : ");
-     scanf ("%d", &choice);
+     while( ( choice > 2 ) || ( choice < 1 )) {
+        printf ("   Enter your choice (1/2) : ");
+        scanf ( " %d", &choice ) ;
+      } ;
+
      switch (choice)
      {
      case 1:
@@ -1348,7 +1351,7 @@
        printf ( "\n" ) ;
        printTree(Tree, NULL, 0);
        printf ( "\n" ) ;
-       printf ( " %s", "\t ====== TRAVERSALS ====== \n" ) ;
+       printf ( " %s", "\t ======= TRAVERSALS ======= \n" ) ;
        for (int i=0; i < numTraversals; i++) {
           if (i == SelecterTraversal) {
             printf ("\t\t > %s <\n", traversals[i]);
@@ -1381,12 +1384,12 @@
                   Displaylist ( & Head_bblr ) ;
                   printf ( " %s", " " ) ;
                   printf ( "\n\n" ) ;
-                  printf ( " %s", " Check Traversal 1  \n" ) ;
-                  printf ( " %s", " 1. YES \n" ) ;
-                  printf ( " %s", " 2. NO \n" ) ;
+                  printf ( " %s", "   Do you want to check Traversal 1 (BB_LR) ?\n" ) ;
+                  printf ( " %s", "\t 1. YES \n" ) ;
+                  printf ( " %s", "\t 2. NO \n" ) ;
                   Check  =  0 ;
                   while( ( Check > 2 ) || ( Check < 1 )) {
-                    printf ("\n Enter your choice (1/2) : ");
+                    printf ("\n   Enter your choice (1/2) : ");
                     scanf ( " %d", &Check ) ;
           
                   } ;
@@ -1394,7 +1397,7 @@
                     if( Checktraversal_1 ( & *T , & Head_bblr )) {
                       printf ( " %s", " " ) ;
                       printf ( "\n" ) ;
-                      printf ( " %s", " The traversal is correct " ) ;
+                      printf ( " %s", "\t\t--> The traversal is correct " ) ;
                       printf ( "\n" ) ;
                       getch ();
 
@@ -1403,7 +1406,7 @@
                       {
                       printf ( " %s", " " ) ;
                       printf ( "\n" ) ;
-                      printf ( " %s", " The traversal is wrong " ) ;
+                      printf ( " %s", "\t\t--> The traversal is wrong " ) ;
                       printf ( "\n" ) ;
 
                     } ;
@@ -1418,12 +1421,12 @@
                   Displaylist ( & Head_lllr ) ;
                   printf ( " %s", " " ) ;
                   printf ( "\n\n" ) ;
-                  printf ( " %s", " Check Traversal 2  \n" ) ;
-                  printf ( " %s", " 1. YES \n" ) ;
-                  printf ( " %s", " 2. NO \n" ) ;
+                  printf ( " %s", "   Do you want to check Traversal 2 (LL_LR) ?\n" ) ;
+                  printf ( " %s", "\t 1. YES \n" ) ;
+                  printf ( " %s", "\t 2. NO \n" ) ;
                   Check  =  0 ;
                   while( ( Check > 2 ) || ( Check < 1 )) {
-                    printf ("\n Enter your choice (1/2) : ");
+                    printf ("\n   Enter your choice (1/2) : ");
                     scanf ( " %d", &Check ) ;
           
                   } ;
@@ -1431,7 +1434,7 @@
                     if( Checktraversal_2 ( & *T , & Head_lllr )) {
                       printf ( " %s", " " ) ;
                       printf ( "\n" ) ;
-                      printf ( " %s", " The traversal is correct " ) ;
+                      printf ( " %s", "\t\t--> The traversal is correct " ) ;
                       printf ( "\n" ) ;
                       getch();
 
@@ -1440,7 +1443,7 @@
                       {
                       printf ( " %s", " " ) ;
                       printf ( "\n" ) ;
-                      printf ( " %s", " The traversal is wrong " ) ;
+                      printf ( " %s", "\t\t--> The traversal is wrong " ) ;
                       printf ( "\n" ) ;
 
                     } ;
@@ -1456,12 +1459,12 @@
                   Displaylist ( & Head_bbrl ) ;
                   printf ( " %s", " " ) ;
                   printf ( "\n\n" ) ;
-                  printf ( " %s", " Check Traversal 3  \n" ) ;
-                  printf ( " %s", " 1. YES \n" ) ;
-                  printf ( " %s", " 2. NO \n" ) ;
+                  printf ( " %s", "   Do you want to check Traversal 3 (BB_RL) ?\n" ) ;
+                  printf ( " %s", "\t 1. YES \n" ) ;
+                  printf ( " %s", "\t 2. NO \n" ) ;
                   Check  =  0 ;
                   while( ( Check > 2 ) || ( Check < 1 )) {
-                    printf ("\n Enter your choice (1/2) : ");
+                    printf ("\n   Enter your choice (1/2) : ");
                     scanf ( " %d", &Check ) ;
           
                   } ;
@@ -1469,7 +1472,7 @@
                     if( Checktraversal_3 ( & *T , & Head_bbrl )) {
                       printf ( " %s", " " ) ;
                       printf ( "\n" ) ;
-                      printf ( " %s", " The traversal is correct " ) ;
+                      printf ( " %s", "\t\t--> The traversal is correct " ) ;
                       printf ( "\n" ) ;
                       getch();
 
@@ -1478,7 +1481,7 @@
                       {
                       printf ( " %s", " " ) ;
                       printf ( "\n" ) ;
-                      printf ( " %s", " The traversal is wrong " ) ;
+                      printf ( " %s", "\t\t--> The traversal is wrong " ) ;
                       printf ( "\n" ) ;
 
                     } ;
@@ -1493,12 +1496,12 @@
                   Displaylist ( & Head_llrl ) ;
                   printf ( " %s", " " ) ;
                   printf ( "\n\n" ) ;
-                  printf ( " %s", " Check Traversal 4  \n" ) ;
-                  printf ( " %s", " 1. YES \n" ) ;
-                  printf ( " %s", " 2. NO \n" ) ;
+                  printf ( " %s", "   Do you wnat to check Traversal 4 (LL_RL) ?\n" ) ;
+                  printf ( " %s", "\t 1. YES \n" ) ;
+                  printf ( " %s", "\t 2. NO \n" ) ;
                   Check  =  0 ;
                   while( ( Check > 2 ) || ( Check < 1 )) {
-                    printf ("\n Enter your choice (1/2) : ");
+                    printf ("\n   Enter your choice (1/2) : ");
                     scanf ( " %d", &Check ) ;
           
                   } ;
@@ -1506,7 +1509,7 @@
                     if( Checktraversal_4 ( & *T , & Head_llrl )) {
                       printf ( " %s", " " ) ;
                       printf ( "\n" ) ;
-                      printf ( " %s", " The traversal is correct " ) ;
+                      printf ( " %s", "\t\t--> The traversal is correct " ) ;
                       printf ( "\n" ) ;
                       getch();
 
@@ -1515,7 +1518,7 @@
                       {
                       printf ( " %s", " " ) ;
                       printf ( "\n" ) ;
-                      printf ( " %s", " The traversal is wrong " ) ;
+                      printf ( " %s", "\t\t--> The traversal is wrong " ) ;
                       printf ( "\n" ) ;
 
                     } ;
@@ -1561,8 +1564,9 @@
        Iterationterminee  =  False ;
        while( Iterationterminee == False) {
           system ("cls");
-         printf ( "\n" ) ;
-         printf ( " %s", "\t ========== MENU ========== " ) ;
+         printf ( "\n\n" ) ;
+         printf ("\t\t\t*** TP ALSDD : Tree Traversals ***\n\n");
+         printf ( " %s", "\t\t========== MENU ========== " ) ;
          printf ( "\n" ) ;
          for (int i=0; i<numMenu; i++) {
           if (i == SelecterMenu) {
@@ -1592,7 +1596,7 @@
                 case 1:
                   if (done == False)
                   {   printf("\n");
-                      printf("Would you Generate the tree first please?");
+                      printf("\t  --> Would you generate the tree first, please?");
                       printf("\n");
 
                   }
@@ -1621,7 +1625,7 @@
                     if (done == False)
                     {
                       printf("\n");
-                      printf("Would you Generate the tree first please?");
+                      printf("\t  --> Would you generate the tree first, please?");
                       printf("\n");
                     }
                     else {
