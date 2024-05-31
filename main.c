@@ -20,6 +20,7 @@
   #include <Time.h>
   #include <string.h>
   #include <unistd.h> // for sleep()
+  #include <conio.h> // for getch()
   #include "DisplayTree.h"
 
   #define True 1
@@ -470,35 +471,49 @@
       int Choicecreatetree;
       int N;
 
-      /** Corps du module **/
-     printf ( " %s", " " ) ;
-     printf ( " %s", " \nDo you want to : \n" ) ;
-     printf ( " %s", " 1. Generate a defined tree ( the tree exemple in the tp ) \n" ) ;
-     printf ( " %s", " 2. Generate a random tree \n" ) ;
-     printf ( "\n" ) ;
-     printf ( "Enter you choice : " ) ;
+      *Tree  =  NULL ;
 
-     Choicecreatetree  =  0 ;
-     while( ( Choicecreatetree > 2 ) || ( Choicecreatetree < 1 )) {
-       scanf ( " %d", &Choicecreatetree ) ;
-      
-     } ;
-     *Tree  =  NULL ;
-     if( Choicecreatetree == 1) {
-       printf ( "\n" ) ;
-       Arbreexemple ( & *Tree ) ;
-       }
-     else
-       {
-       printf ( " %s", " " ) ;
-       printf ( " %s", " Enter the number of random data (you can take n=100) : " ) ;
-       printf ( " %s", " " ) ;
-       scanf ( " %d", &N ) ;
-       Create_tree ( & *Tree , & N ) ;
-       printf ( "\n" ) ;
-      
-     } ;
-    
+      int key;
+      int SelecterTree = 0;
+      const char *tree[] = {"1. Generate a defined tree ( the tree exemple in the tp )", "2. Generate a random tree"};
+      int numTree = sizeof(tree) / sizeof(tree[0]);
+
+      /** Corps du module **/
+     printf ( " %s", " \nDo you want to : \n" ) ;
+     for (int i=0; i < numTree; i++) {
+      if (i == SelecterTree) {
+        printf ("\t> %s <\n", tree[i]);
+      }
+      else {
+        printf ("\t%s\n", tree[i]);
+      }
+     }
+     printf ( " %s", " " ) ;
+     key = getch();
+     switch (key) {
+      case 72:
+        SelecterTree = (SelecterTree - 1 + numTree) % numTree;
+        break;
+      case 80:
+        SelecterTree = (SelecterTree + 1) % numTree;
+        break;
+      case 13:
+        switch (SelecterTree) {
+          case 0:
+            Arbreexemple ( & *Tree ) ;
+            break;
+          case 1:
+            printf ( " %s", " Enter the number of random data (you can take n=100) : " ) ;
+            printf ( " %s", " " ) ;
+            scanf ( " %d", &N ) ;
+            Create_tree ( & *Tree , & N ) ;
+            printf ( "\n" ) ;
+            break;
+        }
+        getch();
+        break;
+     }
+
     }
   /*Displays the values of a list */
   void Displaylist (Pointeur_Li *Head)
@@ -1290,170 +1305,225 @@
       Pointeur_Li Head_lllr=NULL;
       Pointeur_Li Head_llrl=NULL;
 
+      int key;
+      int SelecterTraversal = 0;
+      const char *traversals[] = {"BB_LR", "LL_LR", "BB_RL", "LL_RL", "RETURN"};
+      int numTraversals = sizeof(traversals) / sizeof(traversals[0]);
+
+      int keyCheck;
+      int SelecterCheck = 0;
+      const char *check[] = {"1. YES", "2. NO"};
+      int numCheck = sizeof(check) / sizeof(check[0]);
+
       /** Corps du module **/
      Treetraversals  =  True ;
      while( Treetraversals == True) {
+        system ("cls");
        printf ( "\n" ) ;
        printf ( " %s", " ====== TRAVERSALS ====== \n" ) ;
-       printf ( " %s", "        1. BB_LR \n" ) ;
-       printf ( " %s", "        2. LL_LR \n" ) ;
-       printf ( " %s", "        3. BB_RL \n" ) ;
-       printf ( " %s", "        4. LL_RL \n" ) ;
-       printf ( " %s", "        5. RETURN \n" ) ;
-       printf ( " %s", " " ) ;
-       Traversal  =  0 ;
-       while( ( Traversal > 5 ) || ( Traversal < 1 )) {
-         scanf ( " %d", &Traversal ) ;
-        
-       } ;
-       if( Traversal == 1) {
-         Head_bblr  =  NULL ;
-         Traversal_1 ( & Tree , & Head_bblr ) ;
-         Displaylist ( & Head_bblr ) ;
-         printf ( " %s", " " ) ;
-         printf ( "\n" ) ;
-         printf ( " %s", " Check Traversal 1  \n" ) ;
-         printf ( " %s", " 1. YES \n" ) ;
-         printf ( " %s", " 2. NO \n" ) ;
-         Check  =  0 ;
-         while( ( Check > 2 ) || ( Check < 1 )) {
-           scanf ( " %d", &Check ) ;
-          
-         } ;
-         if( Check == 1) {
-           if( Checktraversal_1 ( & *T , & Head_bblr )) {
-             printf ( " %s", " " ) ;
-             printf ( "\n" ) ;
-             printf ( " %s", " The traversal is correct " ) ;
-             printf ( "\n" ) ;
+       for (int i=0; i < numTraversals; i++) {
+          if (i == SelecterTraversal) {
+            printf ("\t> %s <\n", traversals[i]);
+          } 
+          else {
+            printf ("\t%s\n", traversals[i]);
+          }
+       }
 
-             }
-           else
-             {
-             printf ( " %s", " " ) ;
-             printf ( "\n" ) ;
-             printf ( " %s", " The traversal is wrong " ) ;
-             printf ( "\n" ) ;
-
-           } ;
-          
-         } ;
-         }
-       else
-         {
-         if( Traversal == 2) {
-           Head_lllr  =  NULL ;
-           Traversal_2 ( & Tree , & Head_lllr ) ;
-           Displaylist ( & Head_lllr ) ;
-           printf ( " %s", " " ) ;
-           printf ( "\n" ) ;
-           printf ( " %s", " Check Traversal 2  \n" ) ;
-           printf ( " %s", " 1. YES \n" ) ;
-           printf ( " %s", " 2. NO \n" ) ;
-           Check  =  0 ;
-           while( ( Check > 2 ) || ( Check < 1 )) {
-             scanf ( " %d", &Check ) ;
-            
-           } ;
-           if( Check == 1) {
-             if( Checktraversal_2 ( & *T , & Head_lllr )) {
-             printf ( " %s", " " ) ;
-             printf ( "\n" ) ;
-             printf ( " %s", " The traversal is correct " ) ;
-             printf ( "\n" ) ;
-               }
-             else
-               {
-             printf ( " %s", " " ) ;
-             printf ( "\n" ) ;
-             printf ( " %s", " The traversal is wrong " ) ;
-             printf ( "\n" ) ;
-              
-             } ;
-            
-           } ;
-           }
-         else
-           {
-           if( Traversal == 3) {
-             Head_bbrl  =  NULL ;
-             Traversal_3 ( & Tree , & Head_bbrl ) ;
-             Displaylist ( & Head_bbrl ) ;
-             printf ( " %s", " " ) ;
-             printf ( "\n" ) ;
-             printf ( " %s", " Check Traversal 3  \n" ) ;
-             printf ( " %s", " 1. YES \n" ) ;
-             printf ( " %s", " 2. NO \n" ) ;
-             Check  =  0 ;
-             while( ( Check > 2 ) || ( Check < 1 )) {
-               scanf ( " %d", &Check ) ;
-              
-             } ;
-             if( Check == 1) {
-               if( Checktraversal_3 ( & *T , & Head_bbrl )) {
-                printf ( " %s", " " ) ;
-                printf ( "\n" ) ;
-                printf ( " %s", " The traversal is correct " ) ;
-                printf ( "\n" ) ;
-                 }
-               else
-                 {
-                printf ( " %s", " " ) ;
-                printf ( "\n" ) ;
-                printf ( " %s", " The traversal is wrong " ) ;
-                printf ( "\n" ) ;
-                
-               } ;
-              
-             } ;
-             }
-           else
-             {
-             if( Traversal == 4) {
-               Head_llrl  =  NULL ;
-               Traversal_4 ( & Tree , & Head_llrl ) ;
-               Displaylist ( & Head_llrl ) ;
-               printf ( " %s", " " ) ;
-               printf ( "\n" ) ;
-               printf ( " %s", " Check Traversal 4  \n" ) ;
-               printf ( " %s", " 1. YES \n" ) ;
-               printf ( " %s", " 2. NO \n" ) ;
-               Check  =  0 ;
-               while( ( Check > 2 ) || ( Check < 1 )) {
-                 scanf ( " %d", &Check ) ;
-                
-               } ;
-               if( Check == 1) {
-                 if( Checktraversal_4 ( & *T , & Head_llrl )) {
-                printf ( " %s", " " ) ;
-                printf ( "\n" ) ;
-                printf ( " %s", " The traversal is correct " ) ;
-                printf ( "\n" ) ;
-                   }
-                 else
-                   {
-                printf ( " %s", " " ) ;
-                printf ( "\n" ) ;
-                printf ( " %s", " The traversal is wrong " ) ;
-                printf ( "\n" ) ;
-                  
-                 } ;
-                
-               } ;
-               }
-             else
-               {
-               Treetraversals  =  False ;
-              
-             } ;
-            
-           } ;
-          
-         } ;
-        
-       } ;
-      
-     } ;
+       key = getch();
+       switch (key) {
+          case 72: // Up
+            SelecterTraversal = (SelecterTraversal - 1 + numTraversals) % numTraversals;
+            break;
+          case 80: // Down
+            SelecterTraversal = (SelecterTraversal + 1) % numTraversals;
+            break;
+          case 13: // Enter key
+            if (SelecterTraversal == numTraversals - 1) {
+              return;
+              exit(0);
+            }
+            else {
+              printf ("\n");
+              switch (SelecterTraversal) {
+                case 0:
+                  Head_bblr  =  NULL ;
+                  Traversal_1 ( & Tree , & Head_bblr ) ;
+                  Displaylist ( & Head_bblr ) ;
+                  printf ( " %s", " " ) ;
+                  printf ( "\n" ) ;
+                  printf ( " %s", " Check Traversal 1  \n" ) ;
+                  SelecterCheck = 0;
+                  for (int i=0; i < numCheck; i++) {
+                    if (i == SelecterCheck) {
+                      printf ("\t> %s <\n", check[i]);
+                    } 
+                    else {
+                      printf ("\t%s\n", check[i]);
+                    }
+                  }
+                  keyCheck = getch();
+                  switch(keyCheck) {
+                    case 72:
+                      SelecterCheck = (SelecterCheck - 1 + numCheck) % numCheck;
+                      break;
+                    case 80:
+                      SelecterCheck = (SelecterCheck + 1) % numCheck;
+                      break;
+                    case 13:
+                      switch (SelecterCheck) {
+                        case 0:
+                          printf ( " %s", " " ) ;
+                          printf ( "\n" ) ;
+                          printf ( " %s", " The traversal is correct " ) ;
+                          printf ( "\n" ) ;
+                          break;
+                        case 1:
+                          printf ( " %s", " " ) ;
+                          printf ( "\n" ) ;
+                          printf ( " %s", " The traversal is wrong " ) ;
+                          printf ( "\n" ) ;
+                          break;
+                      }
+                      break;
+                  }
+                  getch();
+                  break;
+                case 1:
+                  Head_lllr  =  NULL ;
+                  Traversal_2 ( & Tree , & Head_lllr ) ;
+                  Displaylist ( & Head_lllr ) ;
+                  printf ( " %s", " " ) ;
+                  printf ( "\n" ) ;
+                  printf ( " %s", " Check Traversal 2  \n" ) ;
+                  SelecterCheck = 0;
+                  for (int i=0; i < numCheck; i++) {
+                    if (i == SelecterCheck) {
+                      printf ("\t> %s <\n", check[i]);
+                    } 
+                    else {
+                      printf ("\t%s\n", check[i]);
+                    }
+                  }
+                  keyCheck = getch();
+                  switch(keyCheck) {
+                    case 72:
+                      SelecterCheck = (SelecterCheck - 1 + numCheck) % numCheck;
+                      break;
+                    case 80:
+                      SelecterCheck = (SelecterCheck + 1) % numCheck;
+                      break;
+                    case 13:
+                      switch (SelecterCheck) {
+                        case 0:
+                          printf ( " %s", " " ) ;
+                          printf ( "\n" ) ;
+                          printf ( " %s", " The traversal is correct " ) ;
+                          printf ( "\n" ) ;
+                          break;
+                        case 1:
+                          printf ( " %s", " " ) ;
+                          printf ( "\n" ) ;
+                          printf ( " %s", " The traversal is wrong " ) ;
+                          printf ( "\n" ) ;
+                          break;
+                      }
+                      break;
+                  }
+                  getch();
+                  break;
+                case 2:
+                  Head_bbrl  =  NULL ;
+                  Traversal_3 ( & Tree , & Head_bbrl ) ;
+                  Displaylist ( & Head_bbrl ) ;
+                  printf ( " %s", " " ) ;
+                  printf ( "\n" ) ;
+                  printf ( " %s", " Check Traversal 3  \n" ) ;
+                  SelecterCheck = 0;
+                  for (int i=0; i < numCheck; i++) {
+                    if (i == SelecterCheck) {
+                      printf ("\t> %s <\n", check[i]);
+                    } 
+                    else {
+                      printf ("\t%s\n", check[i]);
+                    }
+                  }
+                  keyCheck = getch();
+                  switch(keyCheck) {
+                    case 72:
+                      SelecterCheck = (SelecterCheck - 1 + numCheck) % numCheck;
+                      break;
+                    case 80:
+                      SelecterCheck = (SelecterCheck + 1) % numCheck;
+                      break;
+                    case 13:
+                      switch (SelecterCheck) {
+                        case 0:
+                          printf ( " %s", " " ) ;
+                          printf ( "\n" ) ;
+                          printf ( " %s", " The traversal is correct " ) ;
+                          printf ( "\n" ) ;
+                          break;
+                        case 1:
+                          printf ( " %s", " " ) ;
+                          printf ( "\n" ) ;
+                          printf ( " %s", " The traversal is wrong " ) ;
+                          printf ( "\n" ) ;
+                          break;
+                      }
+                      break;
+                  }
+                  getch();
+                 break;
+                case 3:
+                  Head_llrl  =  NULL ;
+                  Traversal_4 ( & Tree , & Head_llrl ) ;
+                  Displaylist ( & Head_llrl ) ;
+                  printf ( " %s", " " ) ;
+                  printf ( "\n" ) ;
+                  printf ( " %s", " Check Traversal 4  \n" ) ;
+                  SelecterCheck = 0;
+                  for (int i=0; i < numCheck; i++) {
+                    if (i == SelecterCheck) {
+                      printf ("\t> %s <\n", check[i]);
+                    } 
+                    else {
+                      printf ("\t%s\n", check[i]);
+                    }
+                  }
+                  keyCheck = getch();
+                  switch(keyCheck) {
+                    case 72:
+                      SelecterCheck = (SelecterCheck - 1 + numCheck) % numCheck;
+                      break;
+                    case 80:
+                      SelecterCheck = (SelecterCheck + 1) % numCheck;
+                      break;
+                    case 13:
+                      switch (SelecterCheck) {
+                        case 0:
+                          printf ( " %s", " " ) ;
+                          printf ( "\n" ) ;
+                          printf ( " %s", " The traversal is correct " ) ;
+                          printf ( "\n" ) ;
+                          break;
+                        case 1:
+                          printf ( " %s", " " ) ;
+                          printf ( "\n" ) ;
+                          printf ( " %s", " The traversal is wrong " ) ;
+                          printf ( "\n" ) ;
+                          break;
+                      }
+                      break;
+                  }
+                  getch();
+                  break;
+                default:
+                  Treetraversals  =  False ;  
+              }  
+            }
+       }
+     }
     
     }
 
@@ -1471,73 +1541,82 @@
      printf ( " %s", "" ) ;
      printf ( " %s", " Enter the number of iterations (You can take m=10) : " ) ;
      scanf ( " %d", &Numberiterations ) ;
+
+      int key;
+      int SelecterMenu = 0;
+      const char *menu[] = {"1. Generate a binary search tree",
+                            "2. Verify that the tree is correctly constructed",
+                            "3. Apply the traversals"};
+      int numMenu = sizeof(menu) / sizeof(menu[0]);
+
      for( M  =  1 ;M <=  Numberiterations ; ++M){
        Iterationterminee  =  False ;
        while( Iterationterminee == False) {
+          system ("cls");
          printf ( "\n" ) ;
-         printf ( " %s", " ========== MENU ========== " ) ;
+         printf ( " %s", "\t ========== MENU ========== " ) ;
          printf ( "\n" ) ;
-         printf ( " %s", " 1. Generate a binary search tree " ) ;
-         printf ( "\n" ) ;
-         printf ( " %s", " 2. Verify that the tree is correctly constructed " ) ;
-         printf ( "\n" ) ;
-         printf ( " %s", " 3. Apply the traversals " ) ;
-         printf ( "\n" ) ;
-         printf ( "\n" ) ;
-         printf ( "Enter your choice : " ) ;
+         for (int i=0; i<numMenu; i++) {
+          if (i == SelecterMenu) {
+            printf ("\t> %s <\n", menu[i]);
+          }
+          else {
+            printf ("\t%s\n", menu[i]);
+          }
+         }
+         key = getch();
+         switch (key) {
+          case 72: //up
+            SelecterMenu = (SelecterMenu - 1 + numMenu) % numMenu;
+            break;
+          case 80: //down
+            SelecterMenu = (SelecterMenu + 1) % numMenu;
+            break;
+          case 13:
+              printf ("\n");
+              switch (SelecterMenu) {
+                case 0:
+                  Generatetree ( & Tree ) ;
+                  printTree(Tree, NULL, 0);
+                  done = True;
+                  break;
+                case 1:
+                  if (done == False)
+                  {   printf("\n");
+                      printf("Would you Generate the tree first please?");
+                      printf("\n");
 
-         Choice  =  0 ;
-         while( ( Choice > 3 ) || ( Choice < 1 )) {
-           scanf ( " %d", &Choice ) ;
-          
-         } ;
-         if( Choice == 1) {
-           Generatetree ( & Tree ) ;
-           printTree(Tree, NULL, 0);
-           done = True;
-           }
-         else
-           {
-            if (done == False)
-            {   printf("\n");
-                printf("Would you Generate the tree first please?");
-                printf("\n");
-
-            }
+                  }
             
-           if( Choice == 2 && done) {
-             _Px1 =  - 1000 ;
-             _Px2 =  1000 ;
-             B  =  Isbst ( & Tree , &_Px1, &_Px2) ;
-            /* Min and Max values are put -1000 to 1000 */
-            /* because of the interval of generating the random numbers */
-             if( B == True) {
-                printf ( "\n" ) ;
-                printf ( " %s", " Tree satisfies the proprieties of a BST, well constructed. \n\n" ) ;
-               }
-             else
-               {
-                printf ( "\n" ) ;
-                printf ( " %s", " Tree does not satisfy the proprieties of a BST. \n\n" ) ;
+                 else {
+                   _Px1 =  - 1000 ;
+                   _Px2 =  1000 ;
+                   B  =  Isbst ( & Tree , &_Px1, &_Px2) ;
+                  /* Min and Max values are put -1000 to 1000 */
+                  /* because of the interval of generating the random numbers */
+                   if( B == True) {
+                      printf ( "\n" ) ;
+                      printf ( " %s", " Tree satisfies the proprieties of a BST, well constructed. \n\n" ) ;
+                     }
+                   else
+                     {
+                      printf ( "\n" ) ;
+                      printf ( " %s", " Tree does not satisfy the proprieties of a BST. \n\n" ) ;
               
-             } ;
-             }
-           else
-             {
-             if( Choice == 3) {
-               Traversals ( & Tree ) ;
-               Iterationterminee  =  True ;
-              
-             } ;
-            
-           } ;
-          
-         } ;
-        
-       } ;
-      
-     } ;
-    
+                    } ;
+                  }
+                  break;
+                case 2:
+                  Traversals ( & Tree ) ;
+                  Iterationterminee  =  True ;
+                  
+                  break;
+              };
+              printf ("continue...");
+              getch();
+        };
+       };
+     };
    
       system("PAUSE");
       return 0;
