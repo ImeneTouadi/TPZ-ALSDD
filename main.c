@@ -1344,6 +1344,8 @@
      while( Treetraversals == True) {
         system ("cls");
        printf ( "\n" ) ;
+       printTree(Tree, NULL, 0);
+       printf ( "\n" ) ;
        printf ( " %s", " ====== TRAVERSALS ====== \n" ) ;
        for (int i=0; i < numTraversals; i++) {
           if (i == SelecterTraversal) {
@@ -1373,6 +1375,7 @@
                 case 0:
                   Head_bblr  =  NULL ;
                   Traversal_1 ( & Tree , & Head_bblr ) ;
+                  printf ("   Traversal branch by branch from left to right : \n\n");
                   Displaylist ( & Head_bblr ) ;
                   printf ( " %s", " " ) ;
                   printf ( "\n\n" ) ;
@@ -1409,6 +1412,7 @@
                 case 1:
                   Head_lllr  =  NULL ;
                   Traversal_2 ( & Tree , & Head_lllr ) ;
+                  printf ("   Traversal leaf by leaf from left to right : \n\n");
                   Displaylist ( & Head_lllr ) ;
                   printf ( " %s", " " ) ;
                   printf ( "\n\n" ) ;
@@ -1446,6 +1450,7 @@
                 case 2:
                   Head_bbrl  =  NULL ;
                   Traversal_3 ( & Tree , & Head_bbrl ) ;
+                  printf ("   Traversal branch by branch from right to left : \n\n");
                   Displaylist ( & Head_bbrl ) ;
                   printf ( " %s", " " ) ;
                   printf ( "\n\n" ) ;
@@ -1482,6 +1487,7 @@
                 case 3:
                   Head_llrl  =  NULL ;
                   Traversal_4 ( & Tree , & Head_llrl ) ;
+                  printf ("   Traversal leaf by leaf from right to left : \n\n");
                   Displaylist ( & Head_llrl ) ;
                   printf ( " %s", " " ) ;
                   printf ( "\n\n" ) ;
@@ -1588,6 +1594,8 @@
                   }
             
                  else {
+                  printf ( "\n" ) ;
+                  printTree(Tree, NULL, 0);
                    _Px1 =  - 1000 ;
                    _Px2 =  1000 ;
                    B  =  Isbst ( & Tree , &_Px1, &_Px2) ;
