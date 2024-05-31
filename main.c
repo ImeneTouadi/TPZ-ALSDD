@@ -21,10 +21,62 @@
   #include <string.h>
   #include <unistd.h> // for sleep()
   #include <conio.h> // for getch()
-  #include "DisplayTree.h"
+  #include <stdbool.h>
 
   #define True 1
   #define False 0
+
+/* ===================== STRUCTURES ====================== */
+
+/** Implémentation **\: ARBRE BINAIRE DE STRUCTURES**/
+
+  /** Structures statiques **/
+
+  typedef struct Tib Type_Tib  ;
+  typedef Type_Tib * Typestr_Tib ;
+  typedef int Type1_Tib  ;
+  typedef bool Type2_Tib  ;
+  struct Tib
+    {
+      Type1_Tib Champ1 ;
+      Type2_Tib Champ2 ;
+    };
+
+
+ /** Arbres de recherche binaire **/
+
+  typedef Typestr_Tib Typeelem_ATib   ;
+  typedef struct Noeud_ATib * Pointeur_ATib ;
+
+  struct Noeud_ATib
+    {
+      Typeelem_ATib  Val ;
+      Pointeur_ATib Fg ;
+      Pointeur_ATib Fd ;
+      Pointeur_ATib Pere ;
+     } ;
+
+/** Listes linéaires chaénées **/
+  typedef int Typeelem_Li   ;
+  typedef struct Maillon_Li * Pointeur_Li ;
+
+  struct Maillon_Li
+    {
+      Typeelem_Li  Val ;
+      Pointeur_Li Suiv ;
+    } ;
+
+struct Trunk
+{
+    struct Trunk *prev;
+    char *str;
+};
+
+Type1_Tib Struct1_Tib ( Typestr_Tib S);
+Typeelem_ATib Info_ATib( Pointeur_ATib P );
+Pointeur_ATib Fg_ATib( Pointeur_ATib P);
+Pointeur_ATib Fd_ATib( Pointeur_ATib P);
+
 
 
   Type1_Tib Struct1_Tib ( Typestr_Tib S)
@@ -174,6 +226,12 @@
   void Traversal_4 (Pointeur_ATib *T , Pointeur_Li *Headlist);
   bool  Checktraversal_4 (Pointeur_ATib *T , Pointeur_Li *Headlist) ;
   void Traversals (Pointeur_ATib *T);
+
+  /** ADDED MODULES TO DISPLAY **/
+
+  struct Trunk* createTrunk(struct Trunk *prev, const char *str);
+  void showTrunks(struct Trunk *p);
+  void printTree(Pointeur_ATib root, struct Trunk *prev, int isLeft);
 
   /*=================== IMPLEMENTATION DES MODULES ======================*/
   /* Checks the unicity of a given val, Returns false if it already exists in the tree */
@@ -1547,6 +1605,64 @@
      }
     
     }
+
+/** BODY OF DISPLAY MODULES ADDED **/
+
+// Function to create a new trunk
+struct Trunk* createTrunk(struct Trunk *prev, const char *str)
+{
+    struct Trunk* trunk = (struct Trunk*)malloc(sizeof(struct Trunk));
+    trunk->prev = prev;
+    trunk->str = (char*)malloc(strlen(str) + 1);
+    strcpy(trunk->str, str);
+    return trunk;
+}
+
+// Helper function to print branches of the binary tree
+void showTrunks(struct Trunk *p)
+{
+    if (p == NULL) {
+        return;
+    }
+
+    showTrunks(p->prev);
+    printf("%s", p->str);
+}
+
+void printTree(Pointeur_ATib root, struct Trunk *prev, int isLeft)
+{
+    if (root == NULL) {
+        return;
+    }
+
+    const char* prev_str = "    ";
+    struct Trunk *trunk = createTrunk(prev, prev_str);
+
+    printTree(Fd_ATib(root), trunk, 1);
+
+    if (!prev) {
+        trunk->str = "---";
+    }
+    else if (isLeft)
+    {
+        trunk->str = ".---";
+        prev_str = "   |";
+    }
+    else {
+        trunk->str = "`---";
+        prev->str = (char*)prev_str;
+    }
+
+    showTrunks(trunk);
+    printf(" %d\n", Struct1_Tib ( Info_ATib ( root )  ));
+
+    if (prev) {
+        prev->str = (char*)prev_str;
+    }
+    trunk->str = "   |";
+
+    printTree(Fg_ATib(root), trunk, 0);
+}
 
   int main(int argc, char *argv[])
     {
