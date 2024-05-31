@@ -519,23 +519,48 @@
      }
     }
     }
+
   /*Displays the values of a list */
   void Displaylist (Pointeur_Li *Head)
     {
       /** Variables locales **/
       Pointeur_Li Current=NULL;
-
+      int choice;
       /** Corps du module **/
-     Current  =  *Head ;
-     while( Current != NULL) {
+     printf("\t Do you want to : \n");
+     printf("\t 1. Display the traversal at once. \n");
+     printf("\t 2. Animate it one by one (this may take some time for 100 data) \n\n");
+     printf("\t Enter you choice : ");
+     scanf ("%d", &choice);
+     switch (choice)
+     {
+     case 1:
+        Current  =  *Head ;
+        printf("\n");
+        while( Current != NULL) {
         printf ( " %d", Valeur_Li(Current) ) ;
-        /*fflush(stdout); // Ensure the data is printed immediately
-        sleep(1); // Pause for a second to simulate animation */
         Current  =  Suivant_Li ( Current ) ;
-      
-     } ;
+        };
+        printf ("\n\n\t Press any key to continue.. ");
+        getch();
+        break;
     
+     case 2:
+        Current  =  *Head ;
+        printf("\n");
+        while( Current != NULL) {
+        printf ( " %d", Valeur_Li(Current) ) ;
+        fflush(stdout); // Ensure the data is printed immediately
+        sleep(1); // Pause for a second to simulate animation
+        Current  =  Suivant_Li ( Current ) ;
+        };
+        printf ("\n\n\t Press any key to continue.. ");
+        getch();
+        break;
+
+     }
     }
+
   /*Insertion at the end of the list*/
   void Addtolist (Pointeur_Li *Head , int *Val)
     {
