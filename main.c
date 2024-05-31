@@ -1373,16 +1373,21 @@
                     case 13:
                       switch (SelecterCheck) {
                         case 0:
-                          printf ( " %s", " " ) ;
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is correct " ) ;
-                          printf ( "\n" ) ;
-                          break;
+                          if( Checktraversal_1 ( & *T , & Head_bblr )) {
+                            printf ( " %s", " " ) ;
+                            printf ( "\n" ) ;
+                            printf ( " %s", " The traversal is correct " ) ;
+                            printf ( "\n" ) ;
+                              }
+                            else
+                              {
+                            printf ( " %s", " " ) ;
+                            printf ( "\n" ) ;
+                            printf ( " %s", " The traversal is wrong " ) ;
+                            printf ( "\n" ) ;
+                              }
+                            break;
                         case 1:
-                          printf ( " %s", " " ) ;
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is wrong " ) ;
-                          printf ( "\n" ) ;
                           break;
                       }
                       break;
@@ -1416,16 +1421,21 @@
                     case 13:
                       switch (SelecterCheck) {
                         case 0:
-                          printf ( " %s", " " ) ;
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is correct " ) ;
-                          printf ( "\n" ) ;
-                          break;
+                          if( Checktraversal_2 ( & *T , & Head_lllr )) {
+                            printf ( " %s", " " ) ;
+                            printf ( "\n" ) ;
+                            printf ( " %s", " The traversal is correct " ) ;
+                            printf ( "\n" ) ;
+                              }
+                            else
+                              {
+                            printf ( " %s", " " ) ;
+                            printf ( "\n" ) ;
+                            printf ( " %s", " The traversal is wrong " ) ;
+                            printf ( "\n" ) ;
+                              }
+                            break;
                         case 1:
-                          printf ( " %s", " " ) ;
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is wrong " ) ;
-                          printf ( "\n" ) ;
                           break;
                       }
                       break;
@@ -1459,16 +1469,21 @@
                     case 13:
                       switch (SelecterCheck) {
                         case 0:
-                          printf ( " %s", " " ) ;
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is correct " ) ;
-                          printf ( "\n" ) ;
-                          break;
+                          if( Checktraversal_3 ( & *T , & Head_bbrl )) {
+                            printf ( " %s", " " ) ;
+                            printf ( "\n" ) ;
+                            printf ( " %s", " The traversal is correct " ) ;
+                            printf ( "\n" ) ;
+                              }
+                            else
+                              {
+                            printf ( " %s", " " ) ;
+                            printf ( "\n" ) ;
+                            printf ( " %s", " The traversal is wrong " ) ;
+                            printf ( "\n" ) ;
+                              }
+                            break;
                         case 1:
-                          printf ( " %s", " " ) ;
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is wrong " ) ;
-                          printf ( "\n" ) ;
                           break;
                       }
                       break;
@@ -1502,16 +1517,21 @@
                     case 13:
                       switch (SelecterCheck) {
                         case 0:
-                          printf ( " %s", " " ) ;
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is correct " ) ;
-                          printf ( "\n" ) ;
-                          break;
+                          if( Checktraversal_4 ( & *T , & Head_llrl )) {
+                            printf ( " %s", " " ) ;
+                            printf ( "\n" ) ;
+                            printf ( " %s", " The traversal is correct " ) ;
+                            printf ( "\n" ) ;
+                              }
+                            else
+                              {
+                            printf ( " %s", " " ) ;
+                            printf ( "\n" ) ;
+                            printf ( " %s", " The traversal is wrong " ) ;
+                            printf ( "\n" ) ;
+                              }
+                            break;
                         case 1:
-                          printf ( " %s", " " ) ;
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is wrong " ) ;
-                          printf ( "\n" ) ;
                           break;
                       }
                       break;
