@@ -1392,13 +1392,15 @@
                           FirstMenuRunning=0;
                           break;
                         case 1:
+                          getch();
                           FirstMenuRunning=0;
                           break;
                       }
+                  }
                       getch();
                       break;
                   }
-            }
+            
             break;
                 case 1:
                   Head_lllr  =  NULL ;
@@ -1428,25 +1430,30 @@
                       break;
                     case 13:
                       switch (SelecterCheck) {
-                        case 0:
-                          printf ( " %s", " " ) ;
+                        case 0 :
+                        printf ( "\n" ) ;
+                          if (Checktraversal_2(T, &Head_lllr)){
                           printf ( "\n" ) ;
                           printf ( " %s", " The traversal is correct " ) ;
                           printf ( "\n" ) ;
-                          break;
-                        case 1:
-                          printf ( " %s", " " ) ;
+                          } else {
                           printf ( "\n" ) ;
                           printf ( " %s", " The traversal is wrong " ) ;
-                          printf ( "\n" ) ;
+                          printf ( "\n" ) ;  
+                          }
+                          SecondMenuRunning=0;
+                          break;
+                        case 1:
+                          getch();
+                          SecondMenuRunning=0;
                           break;
                       }
+                  }
+                      getch();
                       break;
                   }
-                  SecondMenuRunning=0;
-                  getch();
-                }
-                  break;
+            
+            break;
                 
                 case 2:
                   Head_bbrl  =  NULL ;
@@ -1477,25 +1484,29 @@
                     case 13:
                       switch (SelecterCheck) {
                         case 0:
-                          printf ( " %s", " " ) ;
+                          printf ( "\n" ) ;
+                          if (Checktraversal_3(T, &Head_bbrl)){
                           printf ( "\n" ) ;
                           printf ( " %s", " The traversal is correct " ) ;
                           printf ( "\n" ) ;
-                          break;
-                        case 1:
-                          printf ( " %s", " " ) ;
+                          } else {
                           printf ( "\n" ) ;
                           printf ( " %s", " The traversal is wrong " ) ;
-                          printf ( "\n" ) ;
+                          printf ( "\n" ) ;  
+                          }
+                          ThirdMenuRunning=0;
+                          break;
+                        case 1:
+                          getch();
+                          ThirdMenuRunning=0;
                           break;
                       }
+                  }
+                      getch();
                       break;
                   }
-                  ThirdMenuRunning=0;
-                  getch();
-                }
-                 break;
-                
+            
+            break;
                 case 3:
                   Head_llrl  =  NULL ;
                   Traversal_4 ( & Tree , & Head_llrl ) ;
@@ -1525,24 +1536,29 @@
                     case 13:
                       switch (SelecterCheck) {
                         case 0:
-                          printf ( " %s", " " ) ;
+                          printf ( "\n" ) ;
+                          if (Checktraversal_4(T, &Head_llrl)){
                           printf ( "\n" ) ;
                           printf ( " %s", " The traversal is correct " ) ;
                           printf ( "\n" ) ;
-                          break;
-                        case 1:
-                          printf ( " %s", " " ) ;
+                          } else {
                           printf ( "\n" ) ;
                           printf ( " %s", " The traversal is wrong " ) ;
-                          printf ( "\n" ) ;
+                          printf ( "\n" ) ;  
+                          }
+                          ForthMenuRunning=0;
+                          break;
+                        case 1:
+                          getch();
+                          ForthMenuRunning=0;
                           break;
                       }
+                  }
+                      getch();
                       break;
                   }
-                  ForthMenuRunning=0;
-                  getch();
-                }
-                break;
+            
+            break;
                 
                 default:
                   Treetraversals  =  False ;  
