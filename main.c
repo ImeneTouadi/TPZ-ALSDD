@@ -512,7 +512,7 @@
             printf ( "\n" ) ;
             break;
         }
-        getch();
+        //getch();
         treeMenuRunning = 0;
         break;
     
@@ -1339,11 +1339,6 @@
       const char *traversals[] = {"BB_LR", "LL_LR", "BB_RL", "LL_RL", "RETURN"};
       int numTraversals = sizeof(traversals) / sizeof(traversals[0]);
 
-      int keyCheck;
-      int SelecterCheck = 0;
-      const char *check[] = {"1. YES", "2. NO"};
-      int numCheck = sizeof(check) / sizeof(check[0]);
-
       /** Corps du module **/
      Treetraversals  =  True ;
      while( Treetraversals == True) {
@@ -1380,156 +1375,108 @@
                   Traversal_1 ( & Tree , & Head_bblr ) ;
                   Displaylist ( & Head_bblr ) ;
                   printf ( " %s", " " ) ;
-                  printf ( "\n" ) ;
+                  printf ( "\n\n" ) ;
                   printf ( " %s", " Check Traversal 1  \n" ) ;
-                  SelecterCheck = 0;
-                  bool FirstMenuRunning = 1;
-                while (FirstMenuRunning) {
-                  for (int i=0; i < numCheck; i++) {
-                    if (i == SelecterCheck) {
-                      printf ("\t> %s <\n", check[i]);
-                    } 
-                    else {
-                      printf ("\t%s\n", check[i]);
-                    }
-                  }
-                  keyCheck = getch();
-                  switch(keyCheck) {
-                    case 72:
-                      SelecterCheck = (SelecterCheck - 1 + numCheck) % numCheck;
-                      break;
-                    case 80:
-                      SelecterCheck = (SelecterCheck + 1) % numCheck;
-                      break;
-                    case 13:
-                      switch (SelecterCheck) {
-                        case 0:
-                          printf ( "\n" ) ;
-                          if (Checktraversal_1(T, &Head_bblr)){
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is correct " ) ;
-                          printf ( "\n" ) ;
-                          } else {
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is wrong " ) ;
-                          printf ( "\n" ) ;  
-                          }
-                          FirstMenuRunning=0;
-                          break;
-                        case 1:
-                          getch();
-                          FirstMenuRunning=0;
-                          break;
+                  printf ( " %s", " 1. YES \n" ) ;
+                  printf ( " %s", " 2. NO \n" ) ;
+                  Check  =  0 ;
+                  while( ( Check > 2 ) || ( Check < 1 )) {
+                    printf ("\n Enter your choice (1/2) : ");
+                    scanf ( " %d", &Check ) ;
+          
+                  } ;
+                  if( Check == 1) {
+                    if( Checktraversal_1 ( & *T , & Head_bblr )) {
+                      printf ( " %s", " " ) ;
+                      printf ( "\n" ) ;
+                      printf ( " %s", " The traversal is correct " ) ;
+                      printf ( "\n" ) ;
+                      getch ();
+
                       }
-                  }
-                      getch();
-                      break;
-                  }
-            
-            break;
+                    else
+                      {
+                      printf ( " %s", " " ) ;
+                      printf ( "\n" ) ;
+                      printf ( " %s", " The traversal is wrong " ) ;
+                      printf ( "\n" ) ;
+
+                    } ;
+          
+                  } ;
+                  
+                  break;
                 case 1:
                   Head_lllr  =  NULL ;
                   Traversal_2 ( & Tree , & Head_lllr ) ;
                   Displaylist ( & Head_lllr ) ;
                   printf ( " %s", " " ) ;
-                  printf ( "\n" ) ;
+                  printf ( "\n\n" ) ;
                   printf ( " %s", " Check Traversal 2  \n" ) ;
-                  SelecterCheck = 0;
-                  bool SecondMenuRunning = 1;
-                while (SecondMenuRunning) {
-                  for (int i=0; i < numCheck; i++) {
-                    if (i == SelecterCheck) {
-                      printf ("\t> %s <\n", check[i]);
-                    } 
-                    else {
-                      printf ("\t%s\n", check[i]);
-                    }
-                  }
-                  keyCheck = getch();
-                  switch(keyCheck) {
-                    case 72:
-                      SelecterCheck = (SelecterCheck - 1 + numCheck) % numCheck;
-                      break;
-                    case 80:
-                      SelecterCheck = (SelecterCheck + 1) % numCheck;
-                      break;
-                    case 13:
-                      switch (SelecterCheck) {
-                        case 0 :
-                        printf ( "\n" ) ;
-                          if (Checktraversal_2(T, &Head_lllr)){
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is correct " ) ;
-                          printf ( "\n" ) ;
-                          } else {
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is wrong " ) ;
-                          printf ( "\n" ) ;  
-                          }
-                          SecondMenuRunning=0;
-                          break;
-                        case 1:
-                          getch();
-                          SecondMenuRunning=0;
-                          break;
-                      }
-                  }
+                  printf ( " %s", " 1. YES \n" ) ;
+                  printf ( " %s", " 2. NO \n" ) ;
+                  Check  =  0 ;
+                  while( ( Check > 2 ) || ( Check < 1 )) {
+                    printf ("\n Enter your choice (1/2) : ");
+                    scanf ( " %d", &Check ) ;
+          
+                  } ;
+                  if( Check == 1) {
+                    if( Checktraversal_2 ( & *T , & Head_lllr )) {
+                      printf ( " %s", " " ) ;
+                      printf ( "\n" ) ;
+                      printf ( " %s", " The traversal is correct " ) ;
+                      printf ( "\n" ) ;
                       getch();
-                      break;
-                  }
+
+                      }
+                    else
+                      {
+                      printf ( " %s", " " ) ;
+                      printf ( "\n" ) ;
+                      printf ( " %s", " The traversal is wrong " ) ;
+                      printf ( "\n" ) ;
+
+                    } ;
+          
+                  } ;
             
-            break;
+                  break;
                 
                 case 2:
                   Head_bbrl  =  NULL ;
                   Traversal_3 ( & Tree , & Head_bbrl ) ;
                   Displaylist ( & Head_bbrl ) ;
                   printf ( " %s", " " ) ;
-                  printf ( "\n" ) ;
+                  printf ( "\n\n" ) ;
                   printf ( " %s", " Check Traversal 3  \n" ) ;
-                  SelecterCheck = 0;
-                  bool ThirdMenuRunning = 1;
-                while (ThirdMenuRunning) {
-                  for (int i=0; i < numCheck; i++) {
-                    if (i == SelecterCheck) {
-                      printf ("\t> %s <\n", check[i]);
-                    } 
-                    else {
-                      printf ("\t%s\n", check[i]);
-                    }
-                  }
-                  keyCheck = getch();
-                  switch(keyCheck) {
-                    case 72:
-                      SelecterCheck = (SelecterCheck - 1 + numCheck) % numCheck;
-                      break;
-                    case 80:
-                      SelecterCheck = (SelecterCheck + 1) % numCheck;
-                      break;
-                    case 13:
-                      switch (SelecterCheck) {
-                        case 0:
-                          printf ( "\n" ) ;
-                          if (Checktraversal_3(T, &Head_bbrl)){
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is correct " ) ;
-                          printf ( "\n" ) ;
-                          } else {
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is wrong " ) ;
-                          printf ( "\n" ) ;  
-                          }
-                          ThirdMenuRunning=0;
-                          break;
-                        case 1:
-                          getch();
-                          ThirdMenuRunning=0;
-                          break;
-                      }
-                  }
+                  printf ( " %s", " 1. YES \n" ) ;
+                  printf ( " %s", " 2. NO \n" ) ;
+                  Check  =  0 ;
+                  while( ( Check > 2 ) || ( Check < 1 )) {
+                    printf ("\n Enter your choice (1/2) : ");
+                    scanf ( " %d", &Check ) ;
+          
+                  } ;
+                  if( Check == 1) {
+                    if( Checktraversal_3 ( & *T , & Head_bbrl )) {
+                      printf ( " %s", " " ) ;
+                      printf ( "\n" ) ;
+                      printf ( " %s", " The traversal is correct " ) ;
+                      printf ( "\n" ) ;
                       getch();
-                      break;
-                  }
+
+                      }
+                    else
+                      {
+                      printf ( " %s", " " ) ;
+                      printf ( "\n" ) ;
+                      printf ( " %s", " The traversal is wrong " ) ;
+                      printf ( "\n" ) ;
+
+                    } ;
+          
+                  } ;
             
             break;
                 case 3:
@@ -1537,53 +1484,37 @@
                   Traversal_4 ( & Tree , & Head_llrl ) ;
                   Displaylist ( & Head_llrl ) ;
                   printf ( " %s", " " ) ;
-                  printf ( "\n" ) ;
+                  printf ( "\n\n" ) ;
                   printf ( " %s", " Check Traversal 4  \n" ) ;
-                  SelecterCheck = 0;
-                  bool ForthMenuRunning = 1;
-                while (ForthMenuRunning) {
-                  for (int i=0; i < numCheck; i++) {
-                    if (i == SelecterCheck) {
-                      printf ("\t> %s <\n", check[i]);
-                    } 
-                    else {
-                      printf ("\t%s\n", check[i]);
-                    }
-                  }
-                  keyCheck = getch();
-                  switch(keyCheck) {
-                    case 72:
-                      SelecterCheck = (SelecterCheck - 1 + numCheck) % numCheck;
-                      break;
-                    case 80:
-                      SelecterCheck = (SelecterCheck + 1) % numCheck;
-                      break;
-                    case 13:
-                      switch (SelecterCheck) {
-                        case 0:
-                          printf ( "\n" ) ;
-                          if (Checktraversal_4(T, &Head_llrl)){
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is correct " ) ;
-                          printf ( "\n" ) ;
-                          } else {
-                          printf ( "\n" ) ;
-                          printf ( " %s", " The traversal is wrong " ) ;
-                          printf ( "\n" ) ;  
-                          }
-                          ForthMenuRunning=0;
-                          break;
-                        case 1:
-                          getch();
-                          ForthMenuRunning=0;
-                          break;
-                      }
-                  }
+                  printf ( " %s", " 1. YES \n" ) ;
+                  printf ( " %s", " 2. NO \n" ) ;
+                  Check  =  0 ;
+                  while( ( Check > 2 ) || ( Check < 1 )) {
+                    printf ("\n Enter your choice (1/2) : ");
+                    scanf ( " %d", &Check ) ;
+          
+                  } ;
+                  if( Check == 1) {
+                    if( Checktraversal_4 ( & *T , & Head_llrl )) {
+                      printf ( " %s", " " ) ;
+                      printf ( "\n" ) ;
+                      printf ( " %s", " The traversal is correct " ) ;
+                      printf ( "\n" ) ;
                       getch();
-                      break;
-                  }
+
+                      }
+                    else
+                      {
+                      printf ( " %s", " " ) ;
+                      printf ( "\n" ) ;
+                      printf ( " %s", " The traversal is wrong " ) ;
+                      printf ( "\n" ) ;
+
+                    } ;
+          
+                  } ;
             
-            break;
+                  break;
                 
                 default:
                   Treetraversals  =  False ;  
