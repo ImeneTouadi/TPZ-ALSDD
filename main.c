@@ -482,7 +482,7 @@
     bool treeMenuRunning = 1;
     while (treeMenuRunning) {
         system("cls");
-        printf ("\n\t   *** Generating a binary search tree ***\n");
+        printf ("\n\n\t   *** Generating a binary search tree ***\n");
         printf(" \n\tDo you want to: \n");
         for (int i = 0; i < numTree; i++) {  // Fixing the loop condition
             if (i == SelecterTree) {
@@ -1349,8 +1349,8 @@
      while( Treetraversals == True) {
         system ("cls");
        printf ( "\n" ) ;
-       printTree(Tree, NULL, 0);
        printf ( "\n" ) ;
+       printf ("\t\t\t*** Applying the traversals ***\n\n");
        printf ( " %s", "\t ======= TRAVERSALS ======= \n" ) ;
        for (int i=0; i < numTraversals; i++) {
           if (i == SelecterTraversal) {
@@ -1360,6 +1360,7 @@
             printf ("\t\t   %s\n", traversals[i]);
           }
        }
+       printf("\n\tPlease use the Up and Down arrow keys to navigate through the options.\n\t   And press Enter to select.\n");
 
        key = getch();
        switch (key) {
@@ -1375,12 +1376,14 @@
               exit(0);
             }
             else {
+              system ("cls");
               printf ("\n");
+              printTree(Tree, NULL, 0);
               switch (SelecterTraversal) {
                 case 0:
                   Head_bblr  =  NULL ;
                   Traversal_1 ( & Tree , & Head_bblr ) ;
-                  printf ("   Traversal branch by branch from left to right : \n\n");
+                  printf ("\n   Traversal branch by branch from left to right : \n\n");
                   Displaylist ( & Head_bblr ) ;
                   printf ( " %s", " " ) ;
                   printf ( "\n\n" ) ;
@@ -1399,7 +1402,6 @@
                       printf ( "\n" ) ;
                       printf ( " %s", "\t\t--> The traversal is correct " ) ;
                       printf ( "\n" ) ;
-                      getch ();
 
                       }
                     else
@@ -1410,14 +1412,18 @@
                       printf ( "\n" ) ;
 
                     } ;
-          
+
                   } ;
                   
+                  printf ("\n\tPress any key to continue...");
+                  getch();
+
                   break;
+
                 case 1:
                   Head_lllr  =  NULL ;
                   Traversal_2 ( & Tree , & Head_lllr ) ;
-                  printf ("   Traversal leaf by leaf from left to right : \n\n");
+                  printf ("\n   Traversal leaf by leaf from left to right : \n\n");
                   Displaylist ( & Head_lllr ) ;
                   printf ( " %s", " " ) ;
                   printf ( "\n\n" ) ;
@@ -1436,7 +1442,6 @@
                       printf ( "\n" ) ;
                       printf ( " %s", "\t\t--> The traversal is correct " ) ;
                       printf ( "\n" ) ;
-                      getch();
 
                       }
                     else
@@ -1449,13 +1454,16 @@
                     } ;
           
                   } ;
+
+                  printf ("\n\tPress any key to continue...");
+                  getch();
             
                   break;
                 
                 case 2:
                   Head_bbrl  =  NULL ;
                   Traversal_3 ( & Tree , & Head_bbrl ) ;
-                  printf ("   Traversal branch by branch from right to left : \n\n");
+                  printf ("\n   Traversal branch by branch from right to left : \n\n");
                   Displaylist ( & Head_bbrl ) ;
                   printf ( " %s", " " ) ;
                   printf ( "\n\n" ) ;
@@ -1474,7 +1482,6 @@
                       printf ( "\n" ) ;
                       printf ( " %s", "\t\t--> The traversal is correct " ) ;
                       printf ( "\n" ) ;
-                      getch();
 
                       }
                     else
@@ -1487,12 +1494,16 @@
                     } ;
           
                   } ;
+
+                  printf ("\n\tPress any key to continue...");
+                  getch();
             
-            break;
+                  break;
+
                 case 3:
                   Head_llrl  =  NULL ;
                   Traversal_4 ( & Tree , & Head_llrl ) ;
-                  printf ("   Traversal leaf by leaf from right to left : \n\n");
+                  printf ("\n   Traversal leaf by leaf from right to left : \n\n");
                   Displaylist ( & Head_llrl ) ;
                   printf ( " %s", " " ) ;
                   printf ( "\n\n" ) ;
@@ -1511,7 +1522,6 @@
                       printf ( "\n" ) ;
                       printf ( " %s", "\t\t--> The traversal is correct " ) ;
                       printf ( "\n" ) ;
-                      getch();
 
                       }
                     else
@@ -1524,6 +1534,8 @@
                     } ;
           
                   } ;
+                  printf ("\n\tPress any key to continue...");
+                  getch();
             
                   break;
                 
@@ -1542,11 +1554,12 @@
      srand(time(NULL));
      S = malloc(sizeof(Type_Tib));
      system ("color 02"); // 0 for the color of the background and 2 for the color of the text
-     printf ( " %s", "\n\t\t\tWelcome to  ALSDD  TP 02  !!\n" ) ;
+     printf ( " %s", "\n\n\t\t\tWelcome to  ALSDD  TP 02  !!\n" ) ;
      printf ( "\t\t\t\tTree Traversals\n");
-     printf ( " %s\n", "" ) ;
-     printf ( " %s", " We hope to be able to show you our efforts with this program\n" ) ;
-     printf ( " %s", "                          Realised by : Seghouani Sirine//Touadi Imene//Section B : G05\n\n\n" ) ;
+     printf ( " %s\n\n", "" ) ;
+     printf ( " %s", "   We hope to be able to show you our efforts with this program\n" ) ;
+     printf ( " %s", "                   Realised by : Seghouani Sirine//Touadi Imene//Section B : G05\n\n\n" ) ;
+     printf ( " %s", "" ) ;
      printf ( " %s", "" ) ;
      printf ( " %s", "" ) ;
      printf ( " %s", "" ) ;
@@ -1576,7 +1589,7 @@
             printf ("\t%s\n", menu[i]);
           }
          }
-        printf("\n\tPlease use the Up and Down arrow keys to navigate through the options and press Enter to select.\n");
+        printf("\n\tPlease use the Up and Down arrow keys to navigate through the options.\n\t   And press Enter to select.\n");
          key = getch();
          switch (key) {
           case 72: //up
@@ -1611,12 +1624,12 @@
                   /* because of the interval of generating the random numbers */
                    if( B == True) {
                       printf ( "\n" ) ;
-                      printf ( " %s", " Tree satisfies the proprieties of a BST, well constructed. \n\n" ) ;
+                      printf ( " %s", " --> Tree satisfies the proprieties of a BST, well constructed. \n\n" ) ;
                      }
                    else
                      {
                       printf ( "\n" ) ;
-                      printf ( " %s", " Tree does not satisfy the proprieties of a BST. \n\n" ) ;
+                      printf ( " %s", " --> Tree does not satisfy the proprieties of a BST. \n\n" ) ;
               
                     } ;
                   }
