@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <Time.h>
 #include <string.h>
+#include <unistd.h>
 #include "DisplayTree.h"
 
 #define True 1
