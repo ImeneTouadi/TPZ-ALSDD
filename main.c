@@ -482,7 +482,8 @@
     bool treeMenuRunning = 1;
     while (treeMenuRunning) {
         system("cls");
-        printf(" \nDo you want to: \n");
+        printf ("\n\t   *** Generating a binary search tree ***\n");
+        printf(" \n\tDo you want to: \n");
         for (int i = 0; i < numTree; i++) {  // Fixing the loop condition
             if (i == SelecterTree) {
                 printf("\t> %s <\n", tree[i]);
@@ -491,6 +492,7 @@
             }
             }
      printf ( " %s", " " ) ;
+     printf ("\n");
      key = getch();
      switch (key) {
       case 72:
@@ -1346,13 +1348,13 @@
        printf ( "\n" ) ;
        printTree(Tree, NULL, 0);
        printf ( "\n" ) ;
-       printf ( " %s", " ====== TRAVERSALS ====== \n" ) ;
+       printf ( " %s", "\t ====== TRAVERSALS ====== \n" ) ;
        for (int i=0; i < numTraversals; i++) {
           if (i == SelecterTraversal) {
-            printf ("\t> %s <\n", traversals[i]);
+            printf ("\t\t > %s <\n", traversals[i]);
           } 
           else {
-            printf ("\t%s\n", traversals[i]);
+            printf ("\t\t   %s\n", traversals[i]);
           }
        }
 
@@ -1536,9 +1538,11 @@
      bool done = False;
      srand(time(NULL));
      S = malloc(sizeof(Type_Tib));
-     printf ( " %s", "\nWelcome to  ALGO  TP 02  !!\n" ) ;
+     system ("color 02"); // 0 for the color of the background and 2 for the color of the text
+     printf ( " %s", "\n\t\t\tWelcome to  ALSDD  TP 02  !!\n" ) ;
+     printf ( "\t\t\t\tTree Traversals\n");
      printf ( " %s\n", "" ) ;
-     printf ( " %s", "We hope to be able to show you our efforts with this program\n" ) ;
+     printf ( " %s", " We hope to be able to show you our efforts with this program\n" ) ;
      printf ( " %s", "                          Realised by : Seghouani Sirine//Touadi Imene//Section B : G05\n\n\n" ) ;
      printf ( " %s", "" ) ;
      printf ( " %s", "" ) ;
@@ -1626,7 +1630,7 @@
                     }
                   break;
               };
-              printf ("continue...\n\n");
+              printf ("\n\tPress any key to continue...\n\n");
               getch();
         };
        };
