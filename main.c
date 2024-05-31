@@ -5,6 +5,12 @@
   /**             Copywrite 2014                             **/
   /**--------------------------------------------------------**/
 
+    // ============ TP2 ALSDD ============= //
+   //        Traversals of a BST           //
+  //   =========  2023 / 2024  ========   //
+ //   SEGHOUANI Sirine & TOUADI Imene    //
+// =============== G05 ================ // 
+
    
   /*=========================== VARIABLES =================================*/
 
@@ -12,26 +18,13 @@
   #include <stdio.h>
   #include <stdlib.h>
   #include <Time.h>
+  #include <string.h>
+  #include <unistd.h> // for sleep()
   #include "DisplayTree.h"
-
-  typedef int bool ;
 
   #define True 1
   #define False 0
 
-  /** Implémentation **\: ARBRE BINAIRE DE STRUCTURES**/
-
-  /** Structures statiques **/
-
-  typedef struct Tib Type_Tib  ;
-  typedef Type_Tib * Typestr_Tib ;
-  typedef int Type1_Tib  ;
-  typedef bool Type2_Tib  ;
-  struct Tib
-    {
-      Type1_Tib Champ1 ;
-      Type2_Tib Champ2 ;
-    };
 
   Type1_Tib Struct1_Tib ( Typestr_Tib S)
     {
@@ -55,17 +48,6 @@
 
 
   /** Arbres de recherche binaire **/
-
-  typedef Typestr_Tib Typeelem_ATib   ;
-  typedef struct Noeud_ATib * Pointeur_ATib ;
-
-  struct Noeud_ATib
-    {
-      Typeelem_ATib  Val ;
-      Pointeur_ATib Fg ;
-      Pointeur_ATib Fd ;
-      Pointeur_ATib Pere ;
-     } ;
 
   Typeelem_ATib Info_ATib( Pointeur_ATib P )
     { return P->Val;   }
@@ -111,19 +93,6 @@
   void Liberernoeud_ATib( Pointeur_ATib P)
     { free( P ) ; }
 
-
-  /** Implémentation **\: LISTE DE ENTIERS**/
-
-  /** Listes lin?aires cha?n?es **/
-
-  typedef int Typeelem_Li   ;
-  typedef struct Maillon_Li * Pointeur_Li ;
-
-  struct Maillon_Li
-    {
-      Typeelem_Li  Val ;
-      Pointeur_Li Suiv ;
-    } ;
 
   Pointeur_Li Allouer_Li (Pointeur_Li *P)
     {
@@ -518,7 +487,6 @@
      if( Choicecreatetree == 1) {
        printf ( "\n" ) ;
        Arbreexemple ( & *Tree ) ;
-       Display ( & *Tree ) ;
        }
      else
        {
@@ -528,7 +496,6 @@
        scanf ( " %d", &N ) ;
        Create_tree ( & *Tree , & N ) ;
        printf ( "\n" ) ;
-       Display ( & *Tree ) ;
       
      } ;
     
@@ -542,8 +509,10 @@
       /** Corps du module **/
      Current  =  *Head ;
      while( Current != NULL) {
-       printf ( " %d", Valeur_Li(Current) ) ;
-       Current  =  Suivant_Li ( Current ) ;
+        printf ( " %d", Valeur_Li(Current) ) ;
+        fflush(stdout); // Ensure the data is printed immediately
+        sleep(1); // Pause for a second to simulate animation
+        Current  =  Suivant_Li ( Current ) ;
       
      } ;
     
@@ -1524,6 +1493,7 @@
          } ;
          if( Choice == 1) {
            Generatetree ( & Tree ) ;
+           printTree(Tree, NULL, 0);
            done = True;
            }
          else
