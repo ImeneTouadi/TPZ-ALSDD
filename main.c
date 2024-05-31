@@ -1576,7 +1576,7 @@
             printf ("\t%s\n", menu[i]);
           }
          }
-        printf("\n\tDrag up or down to select.. \n");
+        printf("\n\tPlease use the Up and Down arrow keys to navigate through the options and press Enter to select.\n");
          key = getch();
          switch (key) {
           case 72: //up
